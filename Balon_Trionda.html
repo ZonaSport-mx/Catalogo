@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Balones Adidas Trionda - Mundial 2026 · Zona Sport</title>
+<style>
+:root{--azul:#1565C0;--rojo:#E65100;--dorado:#f39c12;--fondo:#f4f6f9;--gris:#666}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:var(--fondo);color:#222}
+
+header{background:linear-gradient(135deg,var(--azul),var(--rojo));color:#fff;text-align:center;padding:40px 20px;margin-top:20px}
+.logo-wrapper{display:flex;justify-content:center;margin-bottom:12px}
+#logo-negocio{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--dorado);background:rgba(243,0,0,.15)}
+header h1{font-size:1.9rem;letter-spacing:1px}
+header p{font-size:.95rem;opacity:.85;margin-top:6px}
+.badge{display:inline-block;background:var(--dorado);color:#222;font-weight:700;font-size:.78rem;padding:4px 14px;border-radius:20px;margin-top:10px;letter-spacing:1px}
+
+.filtros{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:18px 16px 12px;background:#fff;border-bottom:2px solid #e0e0e0}
+.filtros label{font-size:.85rem;font-weight:700;color:var(--gris);align-self:center}
+.filtros select,.filtros button{padding:7px 14px;border-radius:20px;border:1.5px solid #ccc;font-size:.85rem;cursor:pointer;background:#fff;transition:all .2s}
+.filtros select:focus,.filtros button:hover{border-color:var(--azul);outline:none}
+.btn-reset{background:var(--rojo)!important;color:#fff!important;border-color:var(--rojo)!important}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:18px 12px;max-width:1200px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:24px 20px}}
+
+.tarjeta{background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.tarjeta:hover{transform:translateY(-5px);box-shadow:0 8px 24px rgba(0,0,0,.14)}
+.tarjeta-img{width:100%;aspect-ratio:1/1;object-fit:contain;background:linear-gradient(135deg,#e8eaf6,#fce4ec00);padding:12px}
+.tarjeta-body{padding:10px 12px 14px;display:flex;flex-direction:column;flex:1}
+.badges-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:5px}
+.nivel-badge{display:inline-block;background:var(--azul);color:#fff;font-size:.63rem;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.5px}
+.oferta-tag{display:inline-block;background:#e53935;color:#fff;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.5px}
+.tarjeta-body h3{font-size:.88rem;font-weight:700;margin-bottom:3px;line-height:1.3}
+.tarjeta-body .uso{font-size:.72rem;color:var(--gris);margin-bottom:7px}
+.tag{display:inline-block;background:#f0f4ff;border:1px solid #c5cae9;color:var(--azul);font-size:.7rem;padding:2px 8px;border-radius:10px;margin-bottom:4px}
+.precio-antes{font-size:.78rem;color:#aaa;text-decoration:line-through;display:block;margin-bottom:1px}
+.precio{font-size:1.05rem;font-weight:800;color:var(--rojo);margin-bottom:8px}
+.tarjeta-btns{display:flex;flex-direction:column;gap:6px;margin-top:auto}
+.btn-detalles{padding:7px 6px;background:linear-gradient(135deg,var(--azul),#1565C0);color:#fff;border:none;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;transition:opacity .2s}
+.btn-detalles:hover{opacity:.85}
+.btn-wa-card{display:flex;align-items:center;justify-content:center;gap:5px;padding:7px 6px;background:#25d366;color:#fff;border:none;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;text-decoration:none;transition:opacity .2s}
+.btn-wa-card:hover{opacity:.85}
+
+/* OVERLAY / MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;align-items:center;justify-content:center;padding:16px}
+.overlay.active{display:flex}
+.modal{background:#fff;border-radius:18px;max-width:420px;width:100%;padding:24px;position:relative;animation:pop .2s ease;max-height:90vh;overflow-y:auto}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#888}
+
+.modal-img-wrap{position:relative;width:100%;aspect-ratio:1/1;margin-bottom:14px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#e8eaf6,#fce4ec)}
+.modal-img-wrap img{width:100%;height:100%;object-fit:contain;padding:14px}
+.zoom-btn{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.45);border:none;border-radius:8px;padding:7px 9px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:background .2s;color:#fff}
+.zoom-btn:hover{background:rgba(0,0,0,.7)}
+.zoom-btn span{font-size:.7rem;font-weight:600;color:#fff}
+
+.modal h2{font-size:1.2rem;font-weight:800;margin-bottom:3px}
+.modal .m-uso{font-size:.82rem;color:var(--gris);margin-bottom:10px}
+#m-precio-wrap{margin-bottom:14px}
+#m-precio-wrap .precio{font-size:1.5rem;font-weight:800;color:var(--rojo);margin-bottom:4px}
+#m-precio-wrap .precio-antes{font-size:.9rem;color:#aaa;text-decoration:line-through}
+#m-precio-wrap .m-oferta-badge{display:inline-block;background:#e53935;color:#fff;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:4px}
+.modal table{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:16px}
+.modal table td{padding:6px 8px;border-bottom:1px solid #eee}
+.modal table td:first-child{font-weight:700;color:var(--azul);width:42%}
+.btn-wa-modal{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:#25d366;color:#fff;text-align:center;border-radius:12px;font-weight:700;font-size:.95rem;text-decoration:none;transition:opacity .2s}
+.btn-wa-modal:hover{opacity:.88}
+
+.contacto{background:linear-gradient(135deg,var(--azul),var(--rojo));color:#fff;text-align:center;padding:40px 20px;margin-top:20px}
+.contacto h2{font-size:1.5rem;margin-bottom:8px}
+.contacto p{opacity:.9;margin-bottom:22px;font-size:.95rem}
+.contacto a{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;padding:14px 36px;border-radius:30px;font-weight:700;font-size:1rem;text-decoration:none;transition:opacity .2s}
+.contacto a:hover{opacity:.85}
+.sin-resultados{text-align:center;padding:60px 20px;color:var(--gris);font-size:1rem;display:none}
+footer{text-align:center;padding:16px;font-size:.75rem;color:#aaa;background:#fff}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrapper">
+    <img id="logo-negocio"
+         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQitIYyvMsDjTll47U3bZ6cMQuZNoKqwkHp_w&s"
+         alt="Logo Zona Sport"
+         onerror="this.outerHTML='<div style=\'width:120px;height:120px;border-radius:50%;border:4px solid #f39c12;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:40px;\'>⚽</div>'"/>
+  </div>
+  <h1>Zona Sport</h1>
+  <p>Balones oficiales Adidas · Copa Mundial de la FIFA 2026</p>
+  <span class="badge">🏆 COLECCIÓN TRIONDA — MUNDIAL 2026</span>
+</header>
+
+<div class="filtros">
+  <label>Filtrar:</label>
+  <select id="filtroPrecio" onchange="filtrar()">
+    <option value="">Todos los precios</option>
+    <option value="0-300">Menos de $300</option>
+    <option value="300-500">$300 – $500</option>
+    <option value="500-700">$500 – $700</option>
+    <option value="700-9999">$700 o más</option>
+  </select>
+  <select id="filtroTalla" onchange="filtrar()">
+    <option value="">Todas las tallas</option>
+    <option value="Mini">Mini</option>
+    <option value="1">Talla 1</option>
+    <option value="4">Talla 4</option>
+    <option value="5">Talla 5</option>
+  </select>
+  <button class="btn-reset" onclick="resetFiltros()">✕ Limpiar</button>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="sin-resultados" id="sinResultados">😕 No se encontraron balones con esos filtros.</div>
+
+<div class="overlay" id="overlay" onclick="cerrarModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+
+    <div class="modal-img-wrap">
+      <img id="m-img" src="" alt="Balón"
+           onerror="this.style.cssText='width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:70px;';this.alt='⚽'"/>
+      <button class="zoom-btn" id="zoom-btn" onclick="abrirZoom()" title="Ampliar imagen">
+        <svg viewBox="0 0 24 24" fill="white" width="16" height="16">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          <path d="M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z"/>
+        </svg>
+        <span>Ampliar</span>
+      </button>
+    </div>
+
+    <div class="nivel-badge" id="m-nivel"></div>
+    <h2 id="m-nombre"></h2>
+    <div class="m-uso" id="m-uso"></div>
+    <div id="m-precio-wrap"></div>
+    <table>
+      <tr><td>Modelo</td><td id="m-mod"></td></tr>
+      <tr><td>Talla</td><td id="m-talla"></td></tr>
+      <tr><td>Construcción</td><td id="m-const"></td></tr>
+      <tr><td>Ideal para</td><td id="m-ideal"></td></tr>
+    </table>
+    <a class="btn-wa-modal" id="m-wa" href="#" target="_blank">
+      <svg viewBox="0 0 24 24" fill="white" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Me interesa
+    </a>
+  </div>
+</div>
+
+<section class="contacto">
+  <h2>¿Te interesa algún balón?</h2>
+  <p>Escríbenos por WhatsApp y te damos más información<br>sobre disponibilidad y envíos.</p>
+  <a href="https://wa.me/524341072680?text=Hola,%20vi%20su%20cat%C3%A1logo%20de%20balones%20del%20Mundial%202026%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n" target="_blank">
+    <svg viewBox="0 0 24 24" fill="white" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Escribir por WhatsApp
+  </a>
+</section>
+
+<footer>Catálogo · Balones Adidas Trionda · Copa Mundial FIFA 2026 · Precios en MXN con oferta aplicada</footer>
+
+<script>
+const WA = "524341072680";
+
+const waSVG = `<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+
+/* Ordenados de menor a mayor precio final */
+const balones = [
+ {
+    img: "https://soccerpost.com/cdn/shop/files/JX1697_b2b382_pdp_clipped_rev_1.png?v=1761765045&width=1200", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "colección",
+    nombre: "Trionda Mini Coleccionable Copa Mundial de la FIFA 26™",
+    uso: "Minibalón coleccionable del Mundial 2026. Réplica exacta del balón oficial en talla Mini. Ideal para fanáticos, decoración y recuerdo histórico.",
+    mod: "JX1697",
+    talla: "Mini",
+    precio: 249,
+    cert: "Sin certificación",
+    construccion: "Miniatura decorativa",
+    ideal: "Niños, coleccionistas y fanáticos",
+  },
+
+  {
+    img: "https://assets.adidas.com/images/w_600,f_auto,q_auto/ee45671ce1814effb6bc3e8d54af5548_9366/Minibalon_Trionda_Local_Seleccion_Nacional_de_Mexico_Verde_JY0309_01_00_standard.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "Mini",
+    nombre: "Trionda Mini Selección Nacional Mexicana Copa Mundial de la FIFA 26™",
+    uso: "Edición México del balón de club. Lleva el diseño del águila mexicana y los colores patrios, perfecto para entrenar con orgullo azteca.",
+    mod: "JY0309",
+    talla: "1",
+    precio: 399,
+    cert: "Sin certificación",
+    construccion: "Miniatura decorativa",
+    ideal: "Niños, coleccionistas y fanáticos",
+  },
+
+  {
+    img: "https://assets.adidas.com/images/w_600,f_auto,q_auto/7a755ef5ec4e43e084559fd6efd5ce78_faec/Balon_Trionda_Club_Copa_Mundial_de_la_FIFA_26tm_Rosa_JD8029_db01_00_standard.tiff.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "Club",
+    nombre: "Trionda Club Rosa Copa Mundial de la FIFA 26™",
+    uso: "Edición especial en colorway rosa del balón de club. Diseño único inspirado en el espíritu festivo del primer Mundial a 48 selecciones.",
+    mod: "JD8029",
+    talla: "5",
+    precio: 649,
+    cert: "Sin certificación",
+    construccion: "Cosida a maquina",
+    ideal: "Juego casual y práctica diaria",
+  },
+
+  {
+    img: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/d26c090e64824b18a458655a9f39be26_9366/Balon_Trionda_Club_Copa_Mundial_de_la_FIFA_26tm_Rosa_JD8029_02_standard.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "Club",
+    nombre: "Trionda Club Rosa Copa Mundial de la FIFA 26™",
+    uso: "Edición especial en colorway rosa del balón de club. Diseño único inspirado en el espíritu festivo del primer Mundial a 48 selecciones.",
+    mod: "JD8029",
+    talla: "4",
+    precio: 649,
+    cert: "Sin certificación",
+    construccion: "Cosida a maquina",
+    ideal: "Juego casual y práctica diaria",
+  },
+
+  {
+    img: "https://assets.adidas.com/images/w_600,f_auto,q_auto/37c0e856f35a442b82dd00d60bc90276_faec/Balon_Trionda_Club_Copa_Mundial_de_la_FIFA_26tm_Blanco_JD8028_db01_00_standard.tiff.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "Club",
+    nombre: "Trionda Club Copa Mundial de la FIFA 26™",
+    uso: "Versión alternativa del balón de club, acabado lifestyle. Para coleccionistas y fanáticos del Mundial que buscan un diseño diferenciado.",
+    mod: "JD8028",
+    talla: "5",
+    precio: 649,
+    cert: "Sin certificación",
+    construccion: "Cosida a maquina",
+    ideal: "Juego casual y práctica diaria",
+  },
+
+  {
+    img: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/0cc649d426774a188fe043b0b1f0d2a7_9366/Balon_Trionda_Club_Copa_Mundial_de_la_FIFA_26tm_Blanco_JD8028_02_standard.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "Club",
+    nombre: "Trionda Club Copa Mundial de la FIFA 26™",
+    uso: "Versión alternativa del balón de club, acabado lifestyle. Para coleccionistas y fanáticos del Mundial que buscan un diseño diferenciado.",
+    mod: "JD8028",
+    talla: "4",
+    precio: 649,
+    cert: "Sin certificación",
+    construccion: "Cosida a maquina",
+    ideal: "Juego casual y práctica diaria",
+  },
+
+  {
+    img: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/fd88578d148646dabbd39d31d54ab440_9366/WC_CLB_MEX_Blanco_KA0849_01_00_standard.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "Club",
+    nombre: "Trionda Club Copa Mundial de la FIFA 26™ México",
+    uso: "Edición México del balón de club. Lleva el diseño del águila mexicana y los colores patrios, perfecto para entrenar con orgullo azteca.",
+    mod: "KA0849",
+    talla: "4",
+    precio: 649,
+    cert: "Sin certificación",
+    construccion: "Cosida a maquina",
+    ideal: "Juego casual y práctica diaria",
+  },
+
+   {
+    img: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/cb102e4ad73f47dd848b20f34caa5652_9366/Balon_Trionda_Club_Copa_Mundial_de_la_FIFA_26tm_Azul_JD8027_01_00_standard.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "Club",
+    nombre: "Trionda Club Copa Mundial de la FIFA 26™ Estados Unidos",
+    uso: "Edición Estados Unidos del balón de club. Lleva el diseño de las estrellas estadounidenses, perfecto para entrenar con orgullo americano.",
+    mod: "JD8027",
+    talla: "4",
+    precio: 649,
+    cert: "Sin certificación",
+    construccion: "Cosida a maquina",
+    ideal: "Juego casual y práctica diaria",
+  },
+
+  {
+    img: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/3f6dcc811fbe49a38397134fbfc5c3f9_9366/Balon_de_Entrenamiento_Trionda_Copa_Mundial_de_la_FIFA_26tm_Blanco_JD8032_01_00_standard.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "Training",
+    nombre: "Trionda Training Copa Mundial de la FIFA 26™",
+    uso: "El diseño fluido de seis paneles evoca la emblemática ola del Mundial. Construcción cosida a máquina con detalles en bajo relieve y textura de los tres países anfitriones.",
+    mod: "JD8032",
+    talla: "5",
+    precio: 849,
+    cert: "Sin certificación",
+    construccion: "Cosida a máquina, alta durabilidad",
+    ideal: "Sesiones de entrenamiento frecuentes",
+  },
+
+  {
+    img: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/a6b44cb013f14a42818926b59a286ae9_9366/Balon_de_Entrenamiento_Trionda_Copa_Mundial_de_la_FIFA_26tm_Blanco_JD8032_02_standard.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "Training",
+    nombre: "Trionda Training Copa Mundial de la FIFA 26™",
+    uso: "El diseño fluido de seis paneles evoca la emblemática ola del Mundial. Construcción cosida a máquina con detalles en bajo relieve y textura de los tres países anfitriones.",
+    mod: "JD8032",
+    talla: "4",
+    precio: 849,
+    cert: "Sin certificación",
+    construccion: "Cosida a máquina, alta durabilidad",
+    ideal: "Sesiones de entrenamiento frecuentes",
+  },
+
+  {
+    img: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/805fd212cb5941f7a9e3d406bcbd0134_9366/WC_LGE_MEX_Blanco_JZ5560_01_00_standard.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "Amateur",
+    nombre: "Trionda Amateur Copa Mundial de la FIFA 26™ México",
+    uso: "Edición especial México. Diseño con el águila mexicana sobre los colores nacionales. Ideal para entrenamiento y partidos de liga amateur.",
+    mod: "JZ5560",
+    talla: "5",
+    precio: 1099,
+    cert: "FIFA Quality",
+    construccion: "Termosellada, superficie uniforme",
+    ideal: "Jugadores jóvenes / fútbol 7",
+  },
+
+    {
+    img: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/805fd212cb5941f7a9e3d406bcbd0134_9366/WC_LGE_MEX_Blanco_JZ5560_01_00_standard.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "Amateur",
+    nombre: "Trionda Amateur Copa Mundial de la FIFA 26™ México",
+    uso: "Edición especial México. Diseño con el águila mexicana sobre los colores nacionales. Ideal para entrenamiento y partidos de liga amateur.",
+    mod: "JZ5560",
+    talla: "5",
+    precio: 1099,
+    cert: "FIFA Quality",
+    construccion: "Termosellada, superficie uniforme",
+    ideal: "Jugadores jóvenes / fútbol 7",
+  },
+
+  {
+    img: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/fa5659d887cb4767aeb6009a62602197_9366/Balon_League_Copa_Mundial_de_la_FIFA_26tm_Blanco_JD8045_41_detail.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "League",
+    nombre: "Trionda League Copa Mundial de la FIFA 26™",
+    uso: "Balón de entrenamiento avanzado presentado en caja premium. Superficie uniforme para un bote controlado y alta resistencia al desgaste.",
+    mod: "JD8045",
+    talla: "5",
+    precio: 1199,
+    cert: "FIFA Quality",
+    construccion: "Termosellada, superficie uniforme",
+    ideal: "Jugadores frecuentes y partidos amateur",
+  },
+
+  {
+    img: "https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/da13fc00f4c04adea8ce517804ec8bd3_9366/Balon_League_Copa_Mundial_de_la_FIFA_26tm_Blanco_JD8045_01_00_standard.jpg", // *** PEGA AQUÍ LA URL DE LA FOTO ***
+    nivel: "League",
+    nombre: "Trionda League Copa Mundial de la FIFA 26™",
+    uso: "Balón de entrenamiento avanzado presentado en caja premium. Superficie uniforme para un bote controlado y alta resistencia al desgaste.",
+    mod: "JD8045",
+    talla: "4",
+    precio: 1199,
+    cert: "FIFA Quality",
+    construccion: "Termosellada, superficie uniforme",
+    ideal: "Jugadores frecuentes y partidos amateur",
+  },
+];
+
+function waLink(b){
+  const msg=encodeURIComponent(`Hola, vi su catálogo y me interesa el *${b.nombre}* (Modelo ${b.mod}) (Talla ${b.talla}) a $${b.precio.toLocaleString()} MXN. ¿Tienen disponibilidad?`);
+  return `https://wa.me/${WA}?text=${msg}`;
+}
+
+function render(lista){
+  const grid=document.getElementById("grid"),sr=document.getElementById("sinResultados");
+  grid.innerHTML="";
+  if(!lista.length){sr.style.display="block";return;}
+  sr.style.display="none";
+  lista.forEach(b=>{
+    const div=document.createElement("div");
+    div.className="tarjeta";
+    const imgHtml=`<img class="tarjeta-img" src="${b.img}" alt="${b.nombre}"
+      onerror="this.outerHTML='<div style=&quot;width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:64px;background:linear-gradient(135deg,#e8eaf6,#fce4ec);&quot;>⚽</div>'"/>`;
+    const ofertaTag=b.oferta?`<span class="oferta-tag">-${b.oferta}%</span>`:'';
+    const antesHtml=b.precioAntes?`<span class="precio-antes">$${b.precioAntes.toLocaleString()} MXN</span>`:'';
+    div.innerHTML=`
+      ${imgHtml}
+      <div class="tarjeta-body">
+        <div class="badges-row"><span class="nivel-badge">${b.nivel}</span>${ofertaTag}</div>
+        <h3>${b.nombre}</h3>
+        <p class="uso">${b.uso}</p>
+        <span class="tag">Mod: ${b.mod}</span>
+        <span class="tag">Talla: ${b.talla}</span>
+        ${antesHtml}
+        <div class="precio">$${b.precio.toLocaleString()} MXN</div>
+        <div class="tarjeta-btns">
+          <button class="btn-detalles" onclick="abrirModal(${balones.indexOf(b)})">🔍 Ver detalles</button>
+          <a class="btn-wa-card" href="${waLink(b)}" target="_blank">${waSVG} Me interesa</a>
+        </div>
+      </div>`;
+    grid.appendChild(div);
+  });
+}
+
+function abrirModal(idx){
+  const b=balones[idx];
+  const imgEl=document.getElementById("m-img");
+  imgEl.src=b.img||"";
+  document.getElementById("zoom-btn").style.display=b.img?"flex":"none";
+  document.getElementById("m-nivel").textContent=b.nivel;
+  document.getElementById("m-nombre").textContent=b.nombre;
+  document.getElementById("m-uso").textContent=b.uso;
+  const pw=document.getElementById("m-precio-wrap");
+  pw.innerHTML=b.precioAntes
+    ?`<span class="precio-antes">$${b.precioAntes.toLocaleString()} MXN</span>
+       <div class="precio">$${b.precio.toLocaleString()} MXN</div>
+       <span class="m-oferta-badge">${b.oferta}% OFF</span>`
+    :`<div class="precio">$${b.precio.toLocaleString()} MXN</div>`;
+  document.getElementById("m-mod").textContent=b.mod;
+  document.getElementById("m-talla").textContent=b.talla;
+  document.getElementById("m-const").textContent=b.construccion;
+  document.getElementById("m-ideal").textContent=b.ideal;
+  document.getElementById("m-wa").href=waLink(b);
+  document.getElementById("overlay").classList.add("active");
+  document.body.style.overflow="hidden";
+}
+
+function cerrarModal(e){
+  if(!e||e.target===document.getElementById("overlay")){
+    document.getElementById("overlay").classList.remove("active");
+    document.body.style.overflow="";
+  }
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")cerrarModal({});});
+
+function filtrar(){
+  const rango=document.getElementById("filtroPrecio").value;
+  const talla=document.getElementById("filtroTalla").value;
+  let res=balones;
+  if(rango){
+    const[min,max]=rango.split("-").map(Number);
+    res=res.filter(b=>b.precio>=min&&b.precio<max);
+  }
+  if(talla) res=res.filter(b=>b.talla===talla);
+  render(res);
+}
+
+function resetFiltros(){
+  document.getElementById("filtroPrecio").value="";
+  document.getElementById("filtroTalla").value="";
+  render(balones);
+}
+
+function abrirZoom(){
+  const src=document.getElementById("m-img").src;
+  if(!src) return;
+  const ov=document.createElement("div");
+  ov.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:zoom-out;padding:20px;box-sizing:border-box;";
+  const img=document.createElement("img");
+  img.src=src;
+  img.style.cssText="max-width:90vw;max-height:85vh;object-fit:contain;border-radius:14px;";
+  const hint=document.createElement("div");
+  hint.textContent="Toca para cerrar";
+  hint.style.cssText="margin-top:14px;color:rgba(255,255,255,.55);font-size:.8rem;font-family:sans-serif;";
+  ov.appendChild(img);
+  ov.appendChild(hint);
+  ov.onclick=()=>document.body.removeChild(ov);
+  document.body.appendChild(ov);
+}
+
+render(balones);
+</script>
+</body>
+</html>
