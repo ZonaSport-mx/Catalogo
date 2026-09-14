@@ -10,6 +10,7 @@
 body{font-family:'Segoe UI',sans-serif;background:var(--fondo);color:#222}
 
 header{background:linear-gradient(135deg,var(--azul),var(--rojo));color:#fff;text-align:center;padding:40px 20px;margin-top:20px}
+header h1,header p,header .badge{text-shadow:0 2px 8px rgba(0,0,0,.65)}
 .logo-wrapper{display:flex;justify-content:center;margin-bottom:12px}
 #logo-negocio{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--dorado);background:rgba(243,0,0,.15)}
 header h1{font-size:1.9rem;letter-spacing:1px}
@@ -122,12 +123,6 @@ footer{text-align:center;padding:16px;font-size:.75rem;color:#aaa;background:#ff
   </select>
   <select id="filtroTalla" onchange="filtrar()">
     <option value="">Todas las tallas</option>
-  </select>
-  <select id="filtroColor" onchange="filtrar()">
-    <option value="">Todos los colores</option>
-  </select>
-  <select id="filtroGenero" onchange="filtrar()">
-    <option value="">Todos los géneros</option>
   </select>
   <button class="btn-reset" onclick="resetFiltros()">✕ Limpiar</button>
 </div>
@@ -292,14 +287,10 @@ function llenarSelect(id, valores, etiquetaDefault){
 function poblarFiltros(productos){
   const marcas  = [...new Set(productos.map(p=>p.marca).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
   const lineas  = [...new Set(productos.map(p=>p.linea).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-  const generos = [...new Set(productos.map(p=>p.genero).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
   const tallas  = [...new Set(productos.map(p=>p.talla).filter(Boolean))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
-  const colores = [...new Set(productos.map(p=>p.color).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
   llenarSelect('filtroMarca', marcas, 'Todas las marcas');
   llenarSelect('filtroLinea', lineas, 'Todas las líneas');
-  llenarSelect('filtroGenero', generos, 'Todos los géneros');
   llenarSelect('filtroTalla', tallas, 'Todas las tallas');
-  llenarSelect('filtroColor', colores, 'Todos los colores');
 }
 
 function waLink(p){
@@ -430,9 +421,7 @@ function filtrar(){
   const rango=document.getElementById("filtroPrecio").value;
   const marca=document.getElementById("filtroMarca").value;
   const linea=document.getElementById("filtroLinea").value;
-  const genero=document.getElementById("filtroGenero").value;
   const talla=document.getElementById("filtroTalla").value;
-  const color=document.getElementById("filtroColor").value;
   const q=document.getElementById("buscador").value.trim().toLowerCase();
   let res=PRODUCTOS;
   if(rango){
@@ -441,9 +430,7 @@ function filtrar(){
   }
   if(marca) res=res.filter(p=>p.marca===marca);
   if(linea) res=res.filter(p=>p.linea===linea);
-  if(genero) res=res.filter(p=>p.genero===genero);
   if(talla) res=res.filter(p=>p.talla===talla);
-  if(color) res=res.filter(p=>p.color===color);
   if(q){
     res=res.filter(p=>
       p.modelo.toLowerCase().includes(q)||
@@ -461,9 +448,7 @@ function resetFiltros(){
   document.getElementById("filtroPrecio").value="";
   document.getElementById("filtroMarca").value="";
   document.getElementById("filtroLinea").value="";
-  document.getElementById("filtroGenero").value="";
   document.getElementById("filtroTalla").value="";
-  document.getElementById("filtroColor").value="";
   document.getElementById("buscador").value="";
   currentPage = 1;
   render(PRODUCTOS);
