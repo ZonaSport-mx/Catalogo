@@ -27,14 +27,6 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
 .btn-top.show{opacity:1;transform:translateY(0);pointer-events:auto}
 .btn-top:hover{background:var(--rojo)}
 
-/* ---------- cursor personalizado (solo escritorio) ---------- */
-body.custom-cursor,body.custom-cursor a,body.custom-cursor button,body.custom-cursor select,body.custom-cursor .tarjeta{cursor:none}
-.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%);display:none}
-body.custom-cursor .cursor-dot,body.custom-cursor .cursor-ring{display:block}
-.cursor-dot{width:6px;height:6px;background:var(--rojo)}
-.cursor-ring{width:32px;height:32px;border:1.5px solid rgba(18,21,26,.35);transition:width .18s ease,height .18s ease,border-color .18s ease,background .18s ease}
-.cursor-ring.on-dark{border-color:rgba(255,255,255,.5)}
-.cursor-ring.hover{width:52px;height:52px;border-color:var(--rojo);background:rgba(228,87,46,.08)}
 
 /* ---------- barra superior (cinta) ---------- */
 .topbar{width:100%;background:var(--ink);border-bottom:1px solid rgba(255,255,255,.08)}
@@ -191,6 +183,14 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
 .modal-politicas p{font-size:.84rem;line-height:1.6;color:#3F444C;margin-bottom:2px}
 .modal-politicas .pol-disclaimer{margin-top:20px;padding-top:14px;border-top:1px solid var(--linea);font-size:.72rem;color:var(--gris-claro);font-style:italic}
 
+/* ---------- carga progresiva ---------- */
+.carga-bloque{display:none;align-items:center;justify-content:center;gap:10px;text-align:center;padding:14px 20px;color:var(--gris);font-size:.88rem}
+.carga-bloque.on{display:flex}
+.carga-bloque::before{content:'';width:16px;height:16px;border-radius:50%;border:2px solid rgba(0,0,0,.15);border-top-color:var(--rojo);animation:cbSpin .7s linear infinite;flex:none}
+.carga-bloque.err::before{display:none}
+@keyframes cbSpin{to{transform:rotate(360deg)}}
+.grid.cargando{opacity:.45;transition:opacity .2s;pointer-events:none}
+.paginacion.cargando{pointer-events:none;opacity:.5}
 /* ---------- skeleton de carga ---------- */
 .skeleton-grid{display:none;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;padding:24px 20px;max-width:1200px;margin:0 auto}
 .sk-card{background:#fff;border-radius:16px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
@@ -200,12 +200,16 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
 .sk-img,.sk-line{background:linear-gradient(90deg,#ececea 25%,#f6f6f4 50%,#ececea 75%);background-size:200% 100%;animation:skShimmer 1.3s linear infinite}
 @keyframes skShimmer{from{background-position:200% 0}to{background-position:-200% 0}}
 @media (prefers-reduced-motion:reduce){.sk-img,.sk-line{animation:none}}
+/* ---------- cursor propio (nativo, sin JavaScript) ---------- */
+@media (pointer:fine){
+  html,body{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M4 3 L4 23 L9.2 18.2 L12.6 26 L16.2 24.4 L12.8 16.8 L20 16.4 Z' fill='%23FFFFFF' stroke='%2312151A' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") 4 3, auto}
+  a,button,select,label[for],.tarjeta,.pag-num,.pag-btn,.btn-top,.zoom-btn,.link-politicas,.canal-qr{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M4 3 L4 23 L9.2 18.2 L12.6 26 L16.2 24.4 L12.8 16.8 L20 16.4 Z' fill='%23E4572E' stroke='%2312151A' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") 4 3, pointer !important}
+  .pag-btn:disabled,.pag-num.active{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M4 3 L4 23 L9.2 18.2 L12.6 26 L16.2 24.4 L12.8 16.8 L20 16.4 Z' fill='%23FFFFFF' stroke='%2312151A' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") 4 3, default !important}
+}
 </style>
 </head>
 <body>
 
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 
 <button class="btn-top" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Subir" aria-label="Subir">↑</button>
 
@@ -263,6 +267,7 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
   <button class="btn-reintentar" onclick="cargarOfertas()">Reintentar</button>
 </div>
 
+<div class="carga-bloque" id="cargaBloque" role="status" aria-live="polite"></div>
 <div class="grid" id="grid"></div>
 <div class="paginacion" id="paginacion"></div>
 <div class="sin-resultados" id="sinResultados">😕 No encontramos productos con esos criterios.</div>
@@ -392,43 +397,7 @@ window.addEventListener('scroll', ()=>{
 });
 
 // --- Cursor personalizado (solo escritorio) ---
-(function initCursor(){
-  const isTouch = matchMedia('(pointer:coarse)').matches;
-  if(isTouch) return;
-  document.body.classList.add('custom-cursor');
-  const cd = document.getElementById('cursorDot');
-  const cr = document.getElementById('cursorRing');
-  const headerEl = document.querySelector('header');
-  const contactoEl = document.querySelector('.contacto');
-  let mx=0, my=0, rx=0, ry=0;
 
-  window.addEventListener('mousemove', e=>{
-    mx = e.clientX; my = e.clientY;
-    cd.style.left = mx+'px'; cd.style.top = my+'px';
-    const enDark = [headerEl, contactoEl].some(el=>{
-      if(!el) return false;
-      const r = el.getBoundingClientRect();
-      return my>=r.top && my<=r.bottom && mx>=r.left && mx<=r.right;
-    });
-    cr.classList.toggle('on-dark', enDark);
-  });
-
-  let loopOn = false;
-  function loop(){
-    rx += (mx-rx)*0.18; ry += (my-ry)*0.18;
-    cr.style.left = rx+'px'; cr.style.top = ry+'px';
-    if(Math.abs(mx-rx)>0.3 || Math.abs(my-ry)>0.3) requestAnimationFrame(loop);
-    else loopOn = false;
-  }
-  window.addEventListener('mousemove', ()=>{ if(!loopOn){ loopOn = true; requestAnimationFrame(loop); } });
-
-  document.addEventListener('mouseover', e=>{
-    if(e.target.closest('a,button,select,.tarjeta,input')) cr.classList.add('hover');
-  });
-  document.addEventListener('mouseout', e=>{
-    if(e.target.closest('a,button,select,.tarjeta,input')) cr.classList.remove('hover');
-  });
-})();
 
 // --- Partículas del header ---
 function crearCampoParticulas(canvasId, containerEl){
@@ -559,14 +528,44 @@ function animarContador(total){
   }, 18);
 }
 
-const CACHE_KEY = 'zs_ofertas_v1';
-const CACHE_MAX_MS = 6*60*60*1000; // 6 h
+const CACHE_KEY = 'zs_ofertas_v2';          // v2: formato por bloques (?pagina=1)
+const CACHE_MAX_MS = 6*60*60*1000;          // 6 h
 let ultimoCrudo = '';
+
+// ---- Estado de la carga progresiva ----
+// El servidor entrega: ?pagina=1 -> primeros 24 productos (2 páginas visuales)
+//                      ?pagina=N -> 12 productos siguientes (N >= 2)
+let TOTAL_PROD = 0;          // totalProductos del servidor
+let TOTAL_PAG = 1;           // totalPaginas del servidor (bloques)
+let POR_BLOQUE = 12;         // productosPorPagina
+let INICIALES = 24;          // productosIniciales
+let bloques = {};            // { nBloque: [productos ya mapeados] }
+let pendientes = {};         // { nBloque: Promise } -> evita solicitudes duplicadas
+let todoCargado = false;
+let cargaTotalPromise = null;
+let navegando = false;       // hay un cambio de página esperando un bloque
+
+function paginasPorBloqueInicial(){ return Math.max(1, Math.round(INICIALES / PAGE_SIZE)); }
+// Página visual -> bloque del servidor
+function bloqueDePagina(v){
+  const k = paginasPorBloqueInicial();
+  return v <= k ? 1 : v - k + 1;
+}
+// Productos de una página visual (o null si su bloque aún no está cargado)
+function itemsDePagina(v){
+  const k = paginasPorBloqueInicial();
+  const b = bloques[bloqueDePagina(v)];
+  if(!b) return null;
+  return v <= k ? b.slice((v-1)*PAGE_SIZE, v*PAGE_SIZE) : b;
+}
+function reconstruirProductos(){
+  PRODUCTOS = Object.keys(bloques).map(Number).sort((a,b)=>a-b).flatMap(k=>bloques[k]);
+}
 
 function leerCache(){
   try{
     const c = JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
-    if(c && c.data && Date.now()-c.t < CACHE_MAX_MS) return c;
+    if(c && c.data && Array.isArray(c.data.productos) && c.data.totalProductos != null && Date.now()-c.t < CACHE_MAX_MS) return c;
   }catch(e){}
   return null;
 }
@@ -574,22 +573,100 @@ function guardarCache(data){
   try{ localStorage.setItem(CACHE_KEY, JSON.stringify({t:Date.now(), data})); }catch(e){}
 }
 
+// Convierte un bloque del servidor y descarta lo agotado (cantidad <= 0)
+function mapearBloque(data, n){
+  const crudos = Array.isArray(data.productos) ? data.productos : [];
+  const lista = crudos.map(mapProducto).filter(p => p.cantidad > 0);
+  if(lista.length !== crudos.length){
+    console.info(`[Zona Sport] bloque ${n}: el servidor envió ${crudos.length} productos, se muestran ${lista.length} (${crudos.length-lista.length} con cantidad <= 0)`);
+  }
+  return lista;
+}
+
+function leerTotales(data){
+  const crudos = Array.isArray(data.productos) ? data.productos : [];
+  TOTAL_PROD = Number(data.totalProductos);
+  if(!isFinite(TOTAL_PROD)) TOTAL_PROD = crudos.length;
+  TOTAL_PAG  = Math.max(1, Number(data.totalPaginas) || 1);
+  POR_BLOQUE = Number(data.productosPorPagina) || POR_BLOQUE;
+  INICIALES  = Number(data.productosIniciales) || INICIALES;
+}
+
+function reiniciarBloques(conservar){
+  Object.keys(bloques).forEach(k=>{ if(Number(k)!==conservar) delete bloques[k]; });
+  todoCargado = false;
+}
+
+// Aplica la respuesta de ?pagina=1 (viene de caché, de la red o de un refresco)
 function aplicarDatos(data, esRefresco){
   DESCUENTO = Number(data.descuento) || 0;
   document.getElementById('badgeDescuento').textContent = DESCUENTO ? `${DESCUENTO}% OFF` : 'OFERTAS';
-  const crudos = Array.isArray(data.productos) ? data.productos : [];
-  PRODUCTOS = crudos.map(mapProducto).filter(p => p.cantidad > 0);
+  const totalAntes = TOTAL_PROD;
+  leerTotales(data);
+  if(esRefresco && totalAntes !== TOTAL_PROD) reiniciarBloques(0);  // cambió el inventario: los demás bloques ya no cuadran
+  bloques[1] = mapearBloque(data, 1);
+  reconstruirProductos();
   poblarFiltros(PRODUCTOS);
   mostrarEstado('ok');
   if(esRefresco){
     const pag = currentPage;
-    filtrar();               // respeta filtros y búsqueda actuales
-    currentPage = pag; render(listaActual);
+    if(hayFiltros()){ filtrar(); }
+    else{
+      currentPage = Math.min(pag, paginasPorBloqueInicial());
+      renderCatalogo();
+    }
   }else{
     currentPage = 1;
-    render(PRODUCTOS);
-    animarContador(PRODUCTOS.length);
+    renderCatalogo();
+    animarContador(TOTAL_PROD);
   }
+}
+
+// Pide UN bloque al Apps Script (nunca repite uno ya cargado o en camino)
+function pedirBloque(n){
+  if(bloques[n]) return Promise.resolve();
+  if(pendientes[n]) return pendientes[n];
+  pendientes[n] = (async()=>{
+    const res = await fetch(API_URL + '?pagina=' + n);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data = await res.json();
+    const totalAntes = TOTAL_PROD;
+    leerTotales(data);
+    if(totalAntes && totalAntes !== TOTAL_PROD) reiniciarBloques(0);   // inventario cambió
+    bloques[n] = mapearBloque(data, n);
+    reconstruirProductos();
+  })().finally(()=>{ delete pendientes[n]; });
+  return pendientes[n];
+}
+
+function mostrarCarga(texto, esError){
+  const el = document.getElementById('cargaBloque');
+  if(!texto){ el.className='carga-bloque'; el.textContent=''; return; }
+  el.textContent = texto;
+  el.className = 'carga-bloque on' + (esError ? ' err' : '');
+}
+
+// Carga el resto del catálogo (solo cuando hace falta filtrar/buscar sobre todo)
+function cargarTodo(){
+  if(todoCargado) return Promise.resolve();
+  if(cargaTotalPromise) return cargaTotalPromise;
+  cargaTotalPromise = (async()=>{
+    const faltan = [];
+    for(let n=1; n<=TOTAL_PAG; n++) if(!bloques[n]) faltan.push(n);
+    let idx = 0, hechos = TOTAL_PAG - faltan.length;
+    async function worker(){
+      while(idx < faltan.length){
+        const n = faltan[idx++];
+        await pedirBloque(n);
+        hechos++;
+        if(hayFiltros()) mostrarCarga(`Buscando en todo el catálogo… ${Math.min(hechos,TOTAL_PAG)} de ${TOTAL_PAG}`);
+      }
+    }
+    await Promise.all(Array.from({length: Math.min(4, faltan.length)}, worker));
+    todoCargado = Object.keys(bloques).length >= TOTAL_PAG;
+    poblarFiltros(PRODUCTOS);
+  })().finally(()=>{ cargaTotalPromise = null; });
+  return cargaTotalPromise;
 }
 
 async function cargarOfertas(){
@@ -605,7 +682,7 @@ async function cargarOfertas(){
     mostrarEstado('cargando');
   }
   try{
-    const res = await fetch(API_URL);
+    const res = await fetch(API_URL + '?pagina=1');   // solo el primer bloque (24 productos)
     if(!res.ok) throw new Error('HTTP '+res.status);
     const data = await res.json();
     const crudo = JSON.stringify(data);
@@ -680,6 +757,7 @@ function dispHtml(p){
 const PAGE_SIZE = 12;
 let currentPage = 1;
 let listaActual = [];
+let totalActual;   // total del servidor cuando no hay filtros (undefined con filtros)
 
 const IO_SUPPORTED = 'IntersectionObserver' in window;
 const cardObserver = IO_SUPPORTED ? new IntersectionObserver((entries)=>{
@@ -691,19 +769,22 @@ const cardObserver = IO_SUPPORTED ? new IntersectionObserver((entries)=>{
   });
 },{threshold:0.12, rootMargin:'0px 0px -30px 0px'}) : null;
 
-function render(lista){
+// lista: productos cargados. totalServidor/itemsPagina solo se usan sin filtros (carga progresiva).
+function render(lista, totalServidor, itemsPagina){
   listaActual = lista;
+  totalActual = totalServidor;
   const grid=document.getElementById("grid"), sr=document.getElementById("sinResultados"), pag=document.getElementById("paginacion");
   grid.innerHTML="";
   pag.innerHTML="";
-  if(!lista.length){sr.style.display="block";return;}
+  const totalItems = (totalServidor != null) ? totalServidor : lista.length;
+  if(!totalItems){sr.style.display="block";return;}
   sr.style.display="none";
 
-  const totalPaginas = Math.max(1, Math.ceil(lista.length / PAGE_SIZE));
+  const totalPaginas = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
   if(currentPage > totalPaginas) currentPage = totalPaginas;
   if(currentPage < 1) currentPage = 1;
   const inicio = (currentPage-1)*PAGE_SIZE;
-  const paginaItems = lista.slice(inicio, inicio+PAGE_SIZE);
+  const paginaItems = itemsPagina || lista.slice(inicio, inicio+PAGE_SIZE);
 
   paginaItems.forEach(p=>{
     const div=document.createElement("div");
@@ -768,10 +849,44 @@ function renderPaginacion(totalPaginas){
   pag.innerHTML = html;
 }
 
-function irPagina(n){
+function renderCatalogo(){
+  const k = Math.max(1, Math.ceil(TOTAL_PROD / PAGE_SIZE));
+  if(currentPage > k) currentPage = k;
+  render(PRODUCTOS, TOTAL_PROD, itemsDePagina(currentPage) || []);
+}
+
+async function irPagina(n){
+  if(navegando) return;                       // ignora clics repetidos mientras carga
+  const scroll = ()=>document.getElementById('filtrosBar').scrollIntoView({behavior:'smooth', block:'start'});
+  // Con filtros activos todo el catálogo ya está cargado: solo se pagina en memoria
+  if(hayFiltros() || totalActual == null){ currentPage = n; render(listaActual); scroll(); return; }
+  const totalPag = Math.max(1, Math.ceil(TOTAL_PROD / PAGE_SIZE));
+  n = Math.min(Math.max(1, n), totalPag);
+  // ¿Ya tenemos ese bloque? Entonces no se pide nada al servidor
+  if(!bloques[bloqueDePagina(n)]){
+    navegando = true;
+    document.getElementById('grid').classList.add('cargando');
+    document.getElementById('paginacion').classList.add('cargando');
+    mostrarCarga('Cargando más productos…');
+    try{
+      await pedirBloque(bloqueDePagina(n));
+      mostrarCarga('');
+    }catch(err){
+      console.error('Error cargando bloque', err);
+      mostrarCarga('No pudimos cargar esa página. Intenta de nuevo.', true);
+      setTimeout(()=>mostrarCarga(''), 4000);
+      navegando = false;
+      document.getElementById('grid').classList.remove('cargando');
+      document.getElementById('paginacion').classList.remove('cargando');
+      return;
+    }
+    navegando = false;
+    document.getElementById('grid').classList.remove('cargando');
+    document.getElementById('paginacion').classList.remove('cargando');
+  }
   currentPage = n;
-  render(listaActual);
-  document.getElementById('filtrosBar').scrollIntoView({behavior:'smooth', block:'start'});
+  renderCatalogo();
+  scroll();
 }
 
 // Zoom de la imagen del modal siguiendo la posición del mouse
@@ -830,7 +945,45 @@ function cerrarPoliticas(e){
   }
 }
 
+['filtroMarca','filtroLinea','filtroTalla'].forEach(id=>{
+  const el = document.getElementById(id);
+  const pedir = ()=>{ if(!todoCargado) cargarTodo().catch(()=>{}); };
+  el.addEventListener('pointerdown', pedir);
+  el.addEventListener('focus', pedir);
+});
+
+function hayFiltros(){
+  return ['filtroPrecio','filtroMarca','filtroLinea','filtroTalla','buscador']
+    .some(id => (document.getElementById(id).value || '').trim() !== '');
+}
+
 function filtrar(){
+  if(!hayFiltros()){
+    mostrarCarga('');
+    currentPage = 1;
+    renderCatalogo();
+    return;
+  }
+  if(!todoCargado){
+    // Para filtrar/buscar con resultados completos se traen los bloques que faltan (una sola vez)
+    mostrarCarga('Buscando en todo el catálogo…');
+    document.getElementById('grid').classList.add('cargando');
+    cargarTodo().then(()=>{
+      mostrarCarga('');
+      document.getElementById('grid').classList.remove('cargando');
+      if(hayFiltros()) aplicarFiltros();
+    }).catch(err=>{
+      console.error('Error cargando el catálogo completo', err);
+      document.getElementById('grid').classList.remove('cargando');
+      mostrarCarga('No pudimos completar la búsqueda. Intenta de nuevo.', true);
+      setTimeout(()=>mostrarCarga(''), 4000);
+    });
+    return;
+  }
+  aplicarFiltros();
+}
+
+function aplicarFiltros(){
   const rango=document.getElementById("filtroPrecio").value;
   const marca=document.getElementById("filtroMarca").value;
   const linea=document.getElementById("filtroLinea").value;
@@ -864,7 +1017,7 @@ function resetFiltros(){
   document.getElementById("filtroTalla").value="";
   document.getElementById("buscador").value="";
   currentPage = 1;
-  render(PRODUCTOS);
+  filtrar();
 }
 
 function abrirZoom(){
