@@ -177,6 +177,21 @@ header h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(3.
 .gal-thumb.on{border-color:var(--ink);opacity:1}
 .tarjeta-fotos{position:absolute;bottom:8px;right:8px;background:rgba(18,21,26,.65);color:#fff;font-size:.62rem;font-weight:700;padding:3px 8px;border-radius:20px;z-index:2}
 
+/* ---------- cantidad por talla ---------- */
+.m-stock{display:flex;align-items:center;gap:6px;margin-top:12px;font-size:.78rem;font-weight:700;color:var(--gris)}
+.m-stock svg{flex:0 0 auto}
+.m-stock.ok{color:#1A1D22}
+.m-cant-wrap{margin-top:14px;transition:opacity .2s}
+.m-cant-wrap.off{opacity:.45}
+.m-cant-titulo{font-size:.72rem;font-weight:700;color:var(--gris);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+.m-cant{display:inline-flex;align-items:stretch;border:1.5px solid var(--linea);border-radius:var(--r-md);overflow:hidden;background:#fff}
+.m-cant button{width:46px;height:44px;border:none;background:#F6F5F2;color:var(--ink);font-size:1.3rem;font-weight:600;cursor:pointer;transition:background .2s,color .2s;font-family:inherit}
+.m-cant button:hover:not(:disabled){background:var(--ink);color:#fff}
+.m-cant button:disabled{color:var(--gris-claro);cursor:default}
+.m-cant input{width:60px;height:44px;border:none;border-left:1.5px solid var(--linea);border-right:1.5px solid var(--linea);text-align:center;font-size:1rem;font-weight:700;font-family:inherit;color:#1A1D22;background:#fff;outline:none;-moz-appearance:textfield}
+.m-cant input:disabled{background:#fff;color:var(--gris-claro)}
+.m-cant input:focus{background:#FAFAF9}
+
 /* ---------- canal de WhatsApp ---------- */
 .red-wa{border-color:rgba(37,211,102,.55)!important;color:#fff!important}
 .red-wa:hover{border-color:#25D366!important;background:rgba(37,211,102,.12)!important}
@@ -309,7 +324,19 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
     <div class="m-tallas-wrap">
       <div class="m-tallas-titulo">Tallas y existencias</div>
       <div class="m-tallas" id="m-tallas"></div>
-      <div class="m-tallas-hint" id="m-tallas-hint">Elige tu talla y escríbenos por WhatsApp.</div>
+      <div class="m-stock" id="m-stock">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5" stroke-linecap="round"/></svg>
+        <span id="m-tallas-hint">Elige tu talla para indicar cuántas piezas quieres.</span>
+      </div>
+      <div class="m-cant-wrap off" id="mCantWrap">
+        <div class="m-cant-titulo">Cantidad</div>
+        <div class="m-cant">
+          <button type="button" id="cantMenos" onclick="cambiarCantidad(-1)" aria-label="Quitar una pieza" disabled>−</button>
+          <input type="text" id="cantInput" inputmode="numeric" value="1" aria-label="Cantidad de piezas" disabled
+                 oninput="this.value=this.value.replace(/[^0-9]/g,'')" onchange="fijarCantidad(this.value)"/>
+          <button type="button" id="cantMas" onclick="cambiarCantidad(1)" aria-label="Agregar una pieza" disabled>+</button>
+        </div>
+      </div>
     </div>
     <a class="btn-wa-modal" id="m-wa" href="#" target="_blank">
       <svg viewBox="0 0 24 24" fill="white" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -891,13 +918,20 @@ function poblarFiltros(productos){
   llenarSelect('filtroTalla', tallas, 'Todas las tallas');
 }
 
-function waLink(p, talla){
+function waLink(p, talla, cant){
   const nombreCompleto = [p.marca, p.descripcion].filter(Boolean).join(' ');
   let msg = `Hola, me interesa el conjunto *${nombreCompleto}*`;
   if(p.modelo) msg += `, modelo ${p.modelo}`;
   if(p.genero) msg += `, ${p.genero}`;
   if(talla) msg += `, talla ${talla}`;
-  msg += p.precio>0 ? `, con precio de $${Math.round(p.precio).toLocaleString('es-MX')} MXN.` : '.';
+  if(talla && cant) msg += `, ${cant} ${cant===1?'pieza':'piezas'}`;
+  if(p.precio>0){
+    msg += `, con precio de $${Math.round(p.precio).toLocaleString('es-MX')} MXN`;
+    if(talla && cant>1) msg += ` c/u (total $${Math.round(p.precio*cant).toLocaleString('es-MX')} MXN)`;
+    msg += '.';
+  }else{
+    msg += '.';
+  }
   msg += ' ¿Tienen disponibilidad?';
   return `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
 }
@@ -1022,17 +1056,51 @@ document.querySelector(".modal-img-wrap").addEventListener("mousemove", function
   document.getElementById("m-img").style.transformOrigin = `${x}% ${y}%`;
 });
 
+let cantidadElegida = 1;
+
+function stockTallaElegida(){
+  if(!productoAbierto || !tallaElegida) return 0;
+  const t = productoAbierto.tallas.find(x=>x.talla===tallaElegida);
+  return t ? t.cantidad : 0;
+}
+
+function actualizarCantidadUI(){
+  const max = stockTallaElegida();
+  const on = max > 0;
+  if(cantidadElegida > max) cantidadElegida = Math.max(1, max);
+  document.getElementById('mCantWrap').classList.toggle('off', !on);
+  const input = document.getElementById('cantInput');
+  input.disabled = !on;
+  input.value = on ? cantidadElegida : 1;
+  document.getElementById('cantMenos').disabled = !on || cantidadElegida <= 1;
+  document.getElementById('cantMas').disabled = !on || cantidadElegida >= max;
+  const stock = document.getElementById('m-stock');
+  stock.classList.toggle('ok', on);
+  document.getElementById('m-tallas-hint').textContent = on
+    ? `Inventario disponible: ${max} ${max===1?'pieza':'pieza(s)'} en talla ${tallaElegida}`
+    : 'Elige tu talla para indicar cuántas piezas quieres.';
+  if(productoAbierto) document.getElementById('m-wa').href = waLink(productoAbierto, on ? tallaElegida : null, cantidadElegida);
+}
+
+function fijarCantidad(n){
+  const max = stockTallaElegida();
+  if(!max) return;
+  n = parseInt(n, 10);
+  if(isNaN(n)) n = 1;
+  cantidadElegida = Math.min(Math.max(1, n), max);
+  actualizarCantidadUI();
+}
+function cambiarCantidad(d){ fijarCantidad(cantidadElegida + d); }
+
 function elegirTalla(i){
   if(!productoAbierto) return;
   const t = productoAbierto.tallas[i];
   tallaElegida = (tallaElegida===t.talla) ? null : t.talla;   // segundo clic = deseleccionar
+  cantidadElegida = 1;
   document.querySelectorAll('.m-talla-btn').forEach((b,idx)=>{
     b.classList.toggle('sel', productoAbierto.tallas[idx].talla===tallaElegida);
   });
-  document.getElementById('m-tallas-hint').textContent = tallaElegida
-    ? `Talla elegida: ${tallaElegida}`
-    : 'Elige tu talla y escríbenos por WhatsApp.';
-  document.getElementById('m-wa').href = waLink(productoAbierto, tallaElegida);
+  actualizarCantidadUI();
 }
 
 /* ---------- galería de imágenes del modal ---------- */
@@ -1110,8 +1178,8 @@ function abrirModal(idx){
     `<button type="button" class="m-talla-btn${t.cantidad<=2?' low':''}" onclick="elegirTalla(${i})">
        <b>${escapeHtml(t.talla)}</b><small>${t.cantidad===1?'1 pieza':t.cantidad+' piezas'}</small>
      </button>`).join('');
-  document.getElementById('m-tallas-hint').textContent='Elige tu talla y escríbenos por WhatsApp.';
-  document.getElementById("m-wa").href=waLink(p, null);
+  cantidadElegida = 1;
+  actualizarCantidadUI();
   document.getElementById("overlay").classList.add("active");
   document.body.style.overflow="hidden";
   document.getElementById("overlay").scrollTop = 0;
