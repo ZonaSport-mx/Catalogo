@@ -539,18 +539,28 @@ let todoCargado = false;
 let cargaTotalPromise = null;
 let navegando = false;       // hay un cambio de página esperando un bloque
 
-function paginasPorBloqueInicial(){ return Math.max(1, Math.round(INICIALES / PAGE_SIZE)); }
-// Página visual -> bloque del servidor
-function bloqueDePagina(v){
-  const k = paginasPorBloqueInicial();
-  return v <= k ? 1 : v - k + 1;
+// El bloque 1 trae INICIALES productos; los siguientes traen POR_BLOQUE cada uno (12 o 24 según el servidor).
+function inicioBloque(n){ return n <= 1 ? 0 : INICIALES + (n-2)*POR_BLOQUE; }
+function bloqueDeIndice(i){ return i < INICIALES ? 1 : 2 + Math.floor((i-INICIALES)/POR_BLOQUE); }
+// Bloques del servidor que hacen falta para mostrar una página visual (de PAGE_SIZE productos)
+function bloquesDePagina(v){
+  const ini = (v-1)*PAGE_SIZE;
+  const fin = Math.max(ini, Math.min(v*PAGE_SIZE, TOTAL_PROD) - 1);
+  const lista = [];
+  for(let n = bloqueDeIndice(ini); n <= bloqueDeIndice(fin); n++) lista.push(n);
+  return lista;
 }
-// Productos de una página visual (o null si su bloque aún no está cargado)
+// Productos de una página visual (o null si falta algún bloque)
 function itemsDePagina(v){
-  const k = paginasPorBloqueInicial();
-  const b = bloques[bloqueDePagina(v)];
-  if(!b) return null;
-  return v <= k ? b.slice((v-1)*PAGE_SIZE, v*PAGE_SIZE) : b;
+  const ini = (v-1)*PAGE_SIZE, fin = Math.min(v*PAGE_SIZE, TOTAL_PROD);
+  const out = [];
+  for(const n of bloquesDePagina(v)){
+    const b = bloques[n];
+    if(!b) return null;
+    const off = inicioBloque(n);
+    out.push(...b.slice(Math.max(ini,off)-off, fin-off));
+  }
+  return out;
 }
 function reconstruirProductos(){
   PRODUCTOS = Object.keys(bloques).map(Number).sort((a,b)=>a-b).flatMap(k=>bloques[k]);
@@ -606,7 +616,7 @@ function aplicarDatos(data, esRefresco){
     const pag = currentPage;
     if(hayFiltros()){ filtrar(); }
     else{
-      currentPage = Math.min(pag, paginasPorBloqueInicial());
+      currentPage = itemsDePagina(pag) ? pag : 1;   // si ese bloque ya no está, volver a la 1
       renderCatalogo();
     }
   }else{
@@ -614,6 +624,13 @@ function aplicarDatos(data, esRefresco){
     renderCatalogo();
     animarContador(TOTAL_PROD);
   }
+  iniciarPrecarga();
+}
+
+// Mientras el cliente mira las primeras páginas, se van trayendo en segundo plano los bloques siguientes
+function iniciarPrecarga(){
+  if(todoCargado || cargaTotalPromise) return;
+  setTimeout(()=>{ cargarTodo().catch(()=>{}); }, 1200);
 }
 
 // Pide UN bloque al Apps Script (nunca repite uno ya cargado o en camino)
@@ -656,7 +673,7 @@ function cargarTodo(){
         if(hayFiltros()) mostrarCarga(`Buscando en todo el catálogo… ${Math.min(hechos,TOTAL_PAG)} de ${TOTAL_PAG}`);
       }
     }
-    await Promise.all(Array.from({length: Math.min(4, faltan.length)}, worker));
+    await Promise.all(Array.from({length: Math.min(3, faltan.length)}, worker));
     todoCargado = Object.keys(bloques).length >= TOTAL_PAG;
     poblarFiltros(PRODUCTOS);
   })().finally(()=>{ cargaTotalPromise = null; });
@@ -857,13 +874,14 @@ async function irPagina(n){
   const totalPag = Math.max(1, Math.ceil(TOTAL_PROD / PAGE_SIZE));
   n = Math.min(Math.max(1, n), totalPag);
   // ¿Ya tenemos ese bloque? Entonces no se pide nada al servidor
-  if(!bloques[bloqueDePagina(n)]){
+  const faltan = bloquesDePagina(n).filter(b => !bloques[b]);
+  if(faltan.length){
     navegando = true;
     document.getElementById('grid').classList.add('cargando');
     document.getElementById('paginacion').classList.add('cargando');
     mostrarCarga('Cargando más productos…');
     try{
-      await pedirBloque(bloqueDePagina(n));
+      await Promise.all(faltan.map(pedirBloque));
       mostrarCarga('');
     }catch(err){
       console.error('Error cargando bloque', err);
