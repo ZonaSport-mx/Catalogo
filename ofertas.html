@@ -868,7 +868,14 @@ function renderCatalogo(){
 
 async function irPagina(n){
   if(navegando) return;                       // ignora clics repetidos mientras carga
-  const scroll = ()=>document.getElementById('filtrosBar').scrollIntoView({behavior:'smooth', block:'start'});
+  // La barra de filtros es "sticky": scrollIntoView sobre ella no mueve nada cuando ya está pegada arriba.
+  // Se sube al inicio de la lista de productos, justo debajo de esa barra.
+  const scroll = ()=>{
+    const barra = document.getElementById('filtrosBar');
+    const grid = document.getElementById('grid');
+    const top = grid.getBoundingClientRect().top + window.scrollY - barra.offsetHeight - 12;
+    window.scrollTo({top: Math.max(0, top), behavior:'smooth'});
+  };
   // Con filtros activos todo el catálogo ya está cargado: solo se pagina en memoria
   if(hayFiltros() || totalActual == null){ currentPage = n; render(listaActual); scroll(); return; }
   const totalPag = Math.max(1, Math.ceil(TOTAL_PROD / PAGE_SIZE));
