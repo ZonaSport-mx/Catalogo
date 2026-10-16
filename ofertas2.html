@@ -27,20 +27,19 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:
 .btn-top.show{opacity:1;transform:translateY(0);pointer-events:auto}
 .btn-top:hover{background:var(--rojo)}
 
-/* ---------- cursor personalizado (solo escritorio) ---------- */
-body.custom-cursor,body.custom-cursor a,body.custom-cursor button,body.custom-cursor select,body.custom-cursor .tarjeta{cursor:none}
-.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%);display:none}
-body.custom-cursor .cursor-dot,body.custom-cursor .cursor-ring{display:block}
-.cursor-dot{width:6px;height:6px;background:var(--rojo)}
-.cursor-ring{width:32px;height:32px;border:1.5px solid rgba(18,21,26,.35);transition:width .18s ease,height .18s ease,border-color .18s ease,background .18s ease}
-.cursor-ring.on-dark{border-color:rgba(255,255,255,.5)}
-.cursor-ring.hover{width:52px;height:52px;border-color:var(--rojo);background:rgba(228,87,46,.08)}
 
 /* ---------- barra superior (cinta) ---------- */
 .topbar{width:100%;background:var(--ink);border-bottom:1px solid rgba(255,255,255,.08)}
 .topbar-track{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:0;padding:11px 20px}
 .topbar-track span{display:inline-flex;align-items:center;color:rgba(255,255,255,.65);font-size:.7rem;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;padding:3px 16px}
 .topbar-track span:not(:last-child)::after{content:'';display:inline-block;width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.3);margin-left:16px}
+.topbar-track span{line-height:1.5;text-align:center}
+@media (max-width:720px){
+  .topbar-track{display:block;padding:16px 20px}
+  .topbar-track span{display:block;width:100%;padding:6px 0;margin:0;line-height:1.5;letter-spacing:1.1px;font-size:.66rem;text-align:center;text-wrap:balance}
+  .topbar-track span+span{border-top:1px solid rgba(255,255,255,.07)}
+  .topbar-track span::after,.topbar-track span:not(:last-child)::after{display:none!important;content:none!important}
+}
 
 /* ---------- header / hero ---------- */
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -184,6 +183,44 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
 .modal-politicas p{font-size:.84rem;line-height:1.6;color:#3F444C;margin-bottom:2px}
 .modal-politicas .pol-disclaimer{margin-top:20px;padding-top:14px;border-top:1px solid var(--linea);font-size:.72rem;color:var(--gris-claro);font-style:italic}
 
+/* ---------- tallas en el modal ---------- */
+.m-tallas{margin:2px 0 18px;animation:contentUp .4s ease .23s both}
+.m-sec-label{font-size:.7rem;font-weight:700;color:var(--gris);text-transform:uppercase;letter-spacing:.5px;margin:0 0 9px}
+.m-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.m-chip{min-width:62px;padding:9px 10px 8px;border-radius:12px;border:1.5px solid var(--linea);background:#fff;color:var(--ink);font-family:inherit;text-align:center;cursor:pointer;transition:background .18s,border-color .18s,color .18s,transform .15s}
+.m-chip:hover{border-color:var(--ink)}
+.m-chip:active{transform:scale(.96)}
+.m-chip b{display:block;font-size:.98rem;font-weight:800;line-height:1.1}
+.m-chip small{display:block;margin-top:3px;font-size:.66rem;font-weight:600;color:var(--rojo)}
+.m-chip.sel{background:var(--ink);border-color:var(--ink);color:#fff}
+.m-chip.sel small{color:rgba(255,255,255,.72)}
+.m-stock-note{font-size:.8rem;font-weight:600;color:var(--ink);margin-bottom:14px;display:flex;gap:7px;align-items:flex-start}
+.m-stock-note::before{content:'i';flex:none;width:15px;height:15px;margin-top:1px;border:1.5px solid var(--ink);border-radius:50%;font-size:.62rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.m-qty{display:inline-flex;align-items:center;border:1.5px solid var(--linea);border-radius:12px;overflow:hidden;background:#fff}
+.m-qty button{width:44px;height:44px;border:none;background:#F4F3F0;font-size:1.25rem;font-weight:700;color:var(--ink);font-family:inherit;cursor:pointer;transition:background .15s}
+.m-qty button:hover:not(:disabled){background:#E9E7E2}
+.m-qty button:disabled{opacity:.35;cursor:default}
+.m-qty span{min-width:56px;text-align:center;font-weight:800;font-size:1rem}
+/* ---------- autocompletar de la búsqueda ---------- */
+.buscador-wrap{position:relative;display:inline-block}
+.sugerencias{display:none;position:absolute;top:calc(100% + 6px);left:0;min-width:100%;width:max-content;max-width:min(420px,86vw);margin:0;padding:6px;list-style:none;text-align:left;background:#fff;border:1px solid var(--linea);border-radius:14px;box-shadow:0 14px 34px rgba(0,0,0,.14);z-index:40}
+.sugerencias.on{display:block}
+.sugerencias li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:8px 10px;border-radius:9px;font-size:.82rem;color:var(--ink);cursor:pointer}
+.sugerencias li small{color:var(--gris-claro);font-size:.7rem;white-space:nowrap}
+.sugerencias li.act,.sugerencias li:hover{background:#F4F3F0}
+.sugerencias mark{background:none;color:var(--rojo);font-weight:800}
+.aviso-parcial{display:none;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;text-align:center;padding:12px 16px 0;font-size:.84rem;color:var(--gris)}
+.aviso-parcial.on{display:flex}
+.aviso-parcial button{padding:7px 16px;border-radius:20px;border:none;background:var(--ink);color:#fff;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
+/* ---------- carga progresiva ---------- */
+.carga-bloque{display:none;align-items:center;justify-content:center;gap:10px;text-align:center;padding:14px 20px;color:var(--gris);font-size:.88rem}
+.carga-bloque.on{display:flex}
+.carga-bloque::before{content:'';width:16px;height:16px;border-radius:50%;border:2px solid rgba(0,0,0,.15);border-top-color:var(--rojo);animation:cbSpin .7s linear infinite;flex:none}
+.carga-bloque.err::before{display:none}
+.carga-bloque .btn-reintentar{margin:0 0 0 6px;padding:6px 16px}
+@keyframes cbSpin{to{transform:rotate(360deg)}}
+.grid.cargando{opacity:.45;transition:opacity .2s;pointer-events:none}
+.paginacion.cargando{pointer-events:none;opacity:.5}
 /* ---------- skeleton de carga ---------- */
 .skeleton-grid{display:none;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;padding:24px 20px;max-width:1200px;margin:0 auto}
 .sk-card{background:#fff;border-radius:16px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
@@ -197,8 +234,6 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
 </head>
 <body>
 
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 
 <button class="btn-top" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Subir" aria-label="Subir">↑</button>
 
@@ -230,7 +265,11 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
 
 <div class="filtros" id="filtrosBar">
   <label>Filtrar:</label>
-  <input type="text" id="buscador" placeholder="Buscar producto..." oninput="filtrar()"/>
+  <div class="buscador-wrap">
+    <input type="text" id="buscador" placeholder="Buscar producto..." autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sugerencias" aria-autocomplete="list"
+           oninput="alEscribir()" onkeydown="teclaBuscador(event)" onfocus="mostrarSugerencias()"/>
+    <ul class="sugerencias" id="sugerencias" role="listbox"></ul>
+  </div>
   <select id="filtroPrecio" onchange="filtrar()">
     <option value="">Todos los precios</option>
     <option value="0-500">Menos de $500</option>
@@ -256,6 +295,8 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
   <button class="btn-reintentar" onclick="cargarOfertas()">Reintentar</button>
 </div>
 
+<div class="aviso-parcial" id="avisoParcial"></div>
+<div class="carga-bloque" id="cargaBloque" role="status" aria-live="polite"></div>
 <div class="grid" id="grid"></div>
 <div class="paginacion" id="paginacion"></div>
 <div class="sin-resultados" id="sinResultados">😕 No encontramos productos con esos criterios.</div>
@@ -286,9 +327,19 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
       <tr><td>Color</td><td id="m-color"></td></tr>
       <tr><td>Línea</td><td id="m-linea"></td></tr>
       <tr><td>Género</td><td id="m-genero"></td></tr>
-      <tr><td>Talla</td><td id="m-talla"></td></tr>
       <tr><td>Disponibilidad</td><td id="m-disp"></td></tr>
     </table>
+    <div class="m-tallas" id="m-tallas-sec">
+      <div class="m-sec-label" id="m-tallas-label">Tallas y existencias</div>
+      <div class="m-chips" id="m-chips"></div>
+      <div class="m-stock-note" id="m-stock-note"></div>
+      <div class="m-sec-label">Cantidad</div>
+      <div class="m-qty">
+        <button type="button" id="m-menos" aria-label="Menos" onclick="cambiarCantidad(-1)">−</button>
+        <span id="m-cant">1</span>
+        <button type="button" id="m-mas" aria-label="Más" onclick="cambiarCantidad(1)">+</button>
+      </div>
+    </div>
     <a class="btn-wa-modal" id="m-wa" href="#" target="_blank">
       <svg viewBox="0 0 24 24" fill="white" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       Me interesa
@@ -385,43 +436,7 @@ window.addEventListener('scroll', ()=>{
 });
 
 // --- Cursor personalizado (solo escritorio) ---
-(function initCursor(){
-  const isTouch = matchMedia('(pointer:coarse)').matches;
-  if(isTouch) return;
-  document.body.classList.add('custom-cursor');
-  const cd = document.getElementById('cursorDot');
-  const cr = document.getElementById('cursorRing');
-  const headerEl = document.querySelector('header');
-  const contactoEl = document.querySelector('.contacto');
-  let mx=0, my=0, rx=0, ry=0;
 
-  window.addEventListener('mousemove', e=>{
-    mx = e.clientX; my = e.clientY;
-    cd.style.left = mx+'px'; cd.style.top = my+'px';
-    const enDark = [headerEl, contactoEl].some(el=>{
-      if(!el) return false;
-      const r = el.getBoundingClientRect();
-      return my>=r.top && my<=r.bottom && mx>=r.left && mx<=r.right;
-    });
-    cr.classList.toggle('on-dark', enDark);
-  });
-
-  let loopOn = false;
-  function loop(){
-    rx += (mx-rx)*0.18; ry += (my-ry)*0.18;
-    cr.style.left = rx+'px'; cr.style.top = ry+'px';
-    if(Math.abs(mx-rx)>0.3 || Math.abs(my-ry)>0.3) requestAnimationFrame(loop);
-    else loopOn = false;
-  }
-  window.addEventListener('mousemove', ()=>{ if(!loopOn){ loopOn = true; requestAnimationFrame(loop); } });
-
-  document.addEventListener('mouseover', e=>{
-    if(e.target.closest('a,button,select,.tarjeta,input')) cr.classList.add('hover');
-  });
-  document.addEventListener('mouseout', e=>{
-    if(e.target.closest('a,button,select,.tarjeta,input')) cr.classList.remove('hover');
-  });
-})();
 
 // --- Partículas del header ---
 function crearCampoParticulas(canvasId, containerEl){
@@ -521,23 +536,60 @@ function parseNumero(v){
   return isNaN(n) ? 0 : n;
 }
 
+// Fotos: si en la hoja se pegó un enlace normal de Drive (…/file/d/ID/view), se convierte a miniatura directa
+function normalizarImagen(url){
+  const u = String(url||'').trim();
+  if(!u) return '';
+  const m = u.match(/drive\.google\.com\/file\/d\/([\w-]+)/) || u.match(/drive\.google\.com\/(?:open|uc)\?(?:[^#]*&)?id=([\w-]+)/);
+  return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w800` : u;
+}
+// Cada producto tiene un id propio: el botón "Ver detalles" lo usa para encontrarlo aunque la lista cambie de orden
+let contadorProductos = 0;
+const PRODUCTO_POR_ID = {};
+
+// Orden de tallas: primero la escala S/M/L, luego números (24, 25.5, 27...) y al final lo demás
+const ORDEN_LETRAS = ['XXXS','XXS','XS','S','M','L','XL','XXL','XXXL','2XL','3XL','4XL'];
+function ordenTalla(a, b){
+  const ia = ORDEN_LETRAS.indexOf(String(a).toUpperCase()), ib = ORDEN_LETRAS.indexOf(String(b).toUpperCase());
+  if(ia !== -1 && ib !== -1) return ia - ib;
+  if(ia !== -1) return -1;
+  if(ib !== -1) return 1;
+  return String(a).localeCompare(String(b), undefined, {numeric:true});
+}
+
 function mapProducto(p){
   const precio = parseNumero(p.precio);
-  const cantidad = Math.max(0, Math.round(parseNumero(p.cantidad)));
   const precioOferta = precio * (1 - DESCUENTO/100);
-  return {
+  // Tallas: si el servidor agrupó el modelo manda p.tallas = [{talla, cantidad}, ...];
+  // si no, cada fila es un producto con su propia talla.
+  let tallas;
+  if(Array.isArray(p.tallas)){
+    tallas = p.tallas.map(t => ({
+      talla: (t.talla==null ? '' : String(t.talla)).trim(),
+      cantidad: Math.max(0, Math.round(parseNumero(t.cantidad)))
+    })).filter(t => t.cantidad > 0).sort((x,y)=>ordenTalla(x.talla,y.talla));
+  }else{
+    const c = Math.max(0, Math.round(parseNumero(p.cantidad)));
+    tallas = c > 0 ? [{talla: (p.talla||'').toString().trim(), cantidad: c}] : [];
+  }
+  const cantidad = tallas.reduce((sum,t)=>sum+t.cantidad, 0);
+  const producto = {
+    id: ++contadorProductos,
     modelo: (p.modelo||'').toString().trim(),
     descripcion: (p.descripcion||'Producto sin descripción').toString().trim(),
     marca: (p.marca||'').toString().trim(),
     color: (p.color||'').toString().trim(),
     linea: (p.linea||'').toString().trim(),
-    talla: (p.talla||'').toString().trim(),
+    talla: tallas.map(t=>t.talla).filter(Boolean).join(', '),
+    tallas,
     genero: (p.genero||'').toString().trim(),
-    img: (p.imagen||p.img||'').toString().trim(),
+    img: normalizarImagen((p.imagen||p.img||'').toString()),
     precio,
     precioOferta,
     cantidad
   };
+  PRODUCTO_POR_ID[producto.id] = producto;
+  return producto;
 }
 
 function animarContador(total){
@@ -552,14 +604,82 @@ function animarContador(total){
   }, 18);
 }
 
-const CACHE_KEY = 'zs_ofertas_v1';
-const CACHE_MAX_MS = 6*60*60*1000; // 6 h
-let ultimoCrudo = '';
+const CACHE_KEY = 'zs_ofertas_v4';          // solo guarda el primer bloque (24 productos)
+const CACHE_MAX_MS = 3*60*1000;             // 3 min: el stock cambia y las URLs temporales de las fotos caducan
+const CONCURRENCIA_BUSQUEDA = 2;            // solicitudes simultáneas máximas al buscar/filtrar en todo el catálogo
+
+// ---- Carga progresiva por bloques (el servidor entrega los productos ya listos para mostrar) ----
+//   ?pagina=1 -> primeros INICIALES productos (páginas visuales 1 y 2)
+//   ?pagina=N -> siguientes POR_BLOQUE productos (N >= 2); con bloques de 24: N=2 -> páginas 3 y 4, N=3 -> 5 y 6...
+// Un bloque se pide SOLO cuando el cliente necesita llegar a una página que lo contiene.
+let TOTAL_PROD = 0;          // totalProductos del servidor
+let TOTAL_PAG = 1;           // totalPaginas del servidor (bloques)
+let POR_BLOQUE = 24;         // productosPorPagina
+let INICIALES = 24;          // productosIniciales
+let bloques = {};            // { nBloque: [productos ya mapeados] }
+let pendientes = {};         // { nBloque: Promise } -> un bloque en camino se reutiliza, nunca se pide dos veces
+let todoCargado = false;     // true solo si el cliente ya pidió todos los bloques (por buscar/filtrar)
+let cargaTotalPromise = null;
+let navegando = false;       // hay un cambio de página esperando un bloque
+let inicialPromise = null;   // evita que la carga inicial se ejecute dos veces
+
+function fijarDescuento(d){
+  DESCUENTO = Number(d) || 0;
+  document.getElementById('badgeDescuento').textContent = DESCUENTO ? `${DESCUENTO}% OFF` : 'OFERTAS';
+}
+function leerTotales(data){
+  const crudos = Array.isArray(data.productos) ? data.productos : [];
+  TOTAL_PROD = Number(data.totalProductos);
+  if(!isFinite(TOTAL_PROD)) TOTAL_PROD = crudos.length;
+  TOTAL_PAG  = Math.max(1, Number(data.totalPaginas) || 1);
+  POR_BLOQUE = Number(data.productosPorPagina) || POR_BLOQUE;
+  INICIALES  = Number(data.productosIniciales) || INICIALES;
+}
+function mapearBloque(data){
+  const crudos = Array.isArray(data.productos) ? data.productos : [];
+  const lista = crudos.map(mapProducto).filter(p => p.cantidad > 0);
+  // Diagnóstico: ayuda a distinguir "el servidor no mandó foto" de "la foto no cargó"
+  const sinFoto = lista.filter(p => !p.img).map(p => p.modelo || p.descripcion);
+  if(sinFoto.length || lista.length !== crudos.length){
+    console.info(`[Zona Sport] bloque ${data.pagina || '?'}: recibidos ${crudos.length}, con existencia ${lista.length}, sin foto en la respuesta ${sinFoto.length}`, sinFoto.slice(0,12));
+  }
+  return lista;
+}
+
+// Página visual (PAGE_SIZE productos) -> bloque(s) del servidor que la contienen
+function inicioBloque(n){ return n <= 1 ? 0 : INICIALES + (n-2)*POR_BLOQUE; }
+function bloqueDeIndice(i){ return i < INICIALES ? 1 : 2 + Math.floor((i-INICIALES)/POR_BLOQUE); }
+function bloquesDePagina(v){
+  const ini = (v-1)*PAGE_SIZE;
+  const fin = Math.max(ini, Math.min(v*PAGE_SIZE, TOTAL_PROD) - 1);
+  const lista = [];
+  for(let n = bloqueDeIndice(ini); n <= bloqueDeIndice(fin); n++) lista.push(n);
+  return lista;
+}
+// Productos de una página visual (o null si falta algún bloque)
+function itemsDePagina(v){
+  const ini = (v-1)*PAGE_SIZE, fin = Math.min(v*PAGE_SIZE, TOTAL_PROD);
+  const out = [];
+  for(const n of bloquesDePagina(v)){
+    const b = bloques[n];
+    if(!b) return null;
+    const off = inicioBloque(n);
+    out.push(...b.slice(Math.max(ini,off)-off, fin-off));
+  }
+  return out;
+}
+function reconstruirProductos(){
+  PRODUCTOS = Object.keys(bloques).map(Number).sort((a,b)=>a-b).flatMap(k=>bloques[k]);
+}
+function reiniciarBloques(conservar){
+  Object.keys(bloques).forEach(k=>{ if(Number(k)!==conservar) delete bloques[k]; });
+  todoCargado = false;
+}
 
 function leerCache(){
   try{
     const c = JSON.parse(localStorage.getItem(CACHE_KEY)||'null');
-    if(c && c.data && Date.now()-c.t < CACHE_MAX_MS) return c;
+    if(c && c.data && Array.isArray(c.data.productos) && c.data.totalProductos != null && Date.now()-c.t < CACHE_MAX_MS) return c;
   }catch(e){}
   return null;
 }
@@ -567,55 +687,123 @@ function guardarCache(data){
   try{ localStorage.setItem(CACHE_KEY, JSON.stringify({t:Date.now(), data})); }catch(e){}
 }
 
+// Aviso de carga / error. Si hay "accion" se muestra un botón para reintentar MANUALMENTE.
+function mostrarCarga(texto, esError, accion){
+  const el = document.getElementById('cargaBloque');
+  if(!texto){ el.className='carga-bloque'; el.textContent=''; return; }
+  el.className = 'carga-bloque on' + (esError ? ' err' : '');
+  el.textContent = texto;
+  if(accion){
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'btn-reintentar'; b.textContent = 'Reintentar';
+    b.onclick = accion;
+    el.appendChild(b);
+  }
+}
+
+// Pide UN bloque (nunca repite uno ya cargado o en camino)
+function pedirBloque(n){
+  if(bloques[n]) return Promise.resolve();
+  if(pendientes[n]) return pendientes[n];
+  pendientes[n] = (async()=>{
+    const res = await fetch(API_URL + '?pagina=' + n);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data = await res.json();
+    const totalAntes = TOTAL_PROD;
+    leerTotales(data);
+    if(totalAntes && totalAntes !== TOTAL_PROD) reiniciarBloques(0);   // el inventario cambió: los otros bloques ya no cuadran
+    bloques[n] = mapearBloque(data);
+    reconstruirProductos();
+  })().finally(()=>{ delete pendientes[n]; });
+  return pendientes[n];
+}
+
+// Solo se usa al buscar/filtrar (acción del usuario): trae los bloques que falten, pocos a la vez
+function cargarTodo(){
+  if(todoCargado) return Promise.resolve();
+  if(cargaTotalPromise) return cargaTotalPromise;
+  cargaTotalPromise = (async()=>{
+    const faltan = [];
+    for(let n=1; n<=TOTAL_PAG; n++) if(!bloques[n]) faltan.push(n);
+    let idx = 0, hechos = TOTAL_PAG - faltan.length;
+    async function worker(){
+      while(idx < faltan.length && hayFiltros()){      // si el usuario limpia la búsqueda, ya no se piden más bloques
+        const n = faltan[idx++];
+        await pedirBloque(n);
+        hechos++;
+        if(hayFiltros()) mostrarCarga(`Buscando en todo el catálogo… ${Math.min(hechos,TOTAL_PAG)} de ${TOTAL_PAG}`);
+      }
+    }
+    await Promise.all(Array.from({length: Math.min(CONCURRENCIA_BUSQUEDA, faltan.length)}, worker));
+    todoCargado = Object.keys(bloques).length >= TOTAL_PAG;
+    poblarFiltros(PRODUCTOS);
+  })().finally(()=>{ cargaTotalPromise = null; });
+  return cargaTotalPromise;
+}
+
+// Aplica la respuesta de ?pagina=1 (viene de caché, de la red o de un refresco)
 function aplicarDatos(data, esRefresco){
-  DESCUENTO = Number(data.descuento) || 0;
-  document.getElementById('badgeDescuento').textContent = DESCUENTO ? `${DESCUENTO}% OFF` : 'OFERTAS';
-  const crudos = Array.isArray(data.productos) ? data.productos : [];
-  PRODUCTOS = crudos.map(mapProducto).filter(p => p.cantidad > 0);
+  fijarDescuento(data.descuento);
+  const totalAntes = TOTAL_PROD;
+  leerTotales(data);
+  if(esRefresco && totalAntes !== TOTAL_PROD) reiniciarBloques(0);
+  bloques[1] = mapearBloque(data);
+  reconstruirProductos();
   poblarFiltros(PRODUCTOS);
   mostrarEstado('ok');
   if(esRefresco){
     const pag = currentPage;
-    filtrar();               // respeta filtros y búsqueda actuales
-    currentPage = pag; render(listaActual);
+    if(hayFiltros()){ filtrar(); }
+    else{
+      currentPage = itemsDePagina(pag) ? pag : 1;   // si el bloque de esa página ya no está, volver a la 1
+      renderCatalogo();
+    }
   }else{
     currentPage = 1;
-    render(PRODUCTOS);
-    animarContador(PRODUCTOS.length);
+    renderCatalogo();
+    animarContador(TOTAL_PROD);
   }
 }
 
-async function cargarOfertas(){
-  const cache = leerCache();
-  let mostroCache = false;
-  if(cache){
+// Huella de lo que ve el cliente (sin las URLs de las fotos, que son temporales y cambian en cada respuesta)
+function firmaDatos(data){
+  const filas = (Array.isArray(data.productos) ? data.productos : [])
+    .map(p => [p.modelo, p.talla, p.cantidad, p.precio, p.imagen ? 1 : 0]);
+  return JSON.stringify([data.totalProductos, data.descuento, filas]);
+}
+
+// Carga inicial: UNA sola solicitud (?pagina=1). Se protege para que nunca corra dos veces a la vez.
+function cargarOfertas(){
+  if(inicialPromise) return inicialPromise;
+  inicialPromise = (async()=>{
+    const cache = leerCache();
+    let mostroCache = false;
+    let firmaCache = '';
+    if(cache){
+      try{
+        aplicarDatos(cache.data, false);
+        firmaCache = firmaDatos(cache.data);
+        mostroCache = true;
+      }catch(e){ mostrarEstado('cargando'); }
+    }else{
+      mostrarEstado('cargando');
+    }
     try{
-      aplicarDatos(cache.data, false);
-      ultimoCrudo = JSON.stringify(cache.data);
-      mostroCache = true;
-    }catch(e){ mostrarEstado('cargando'); }
-  }else{
-    mostrarEstado('cargando');
-  }
-  try{
-    const res = await fetch(API_URL);
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const data = await res.json();
-    const crudo = JSON.stringify(data);
-    guardarCache(data);
-    if(!mostroCache){
-      aplicarDatos(data, false);
-    }else if(crudo !== ultimoCrudo){
-      aplicarDatos(data, true); // solo si algo cambió (stock, precios, imágenes)
+      const res = await fetch(API_URL + '?pagina=1');
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const data = await res.json();
+      guardarCache(data);
+      if(!mostroCache) aplicarDatos(data, false);
+      else if(firmaDatos(data) !== firmaCache) aplicarDatos(data, true);   // solo si cambió algo visible (las URLs de fotos cambian siempre)
+    }catch(err){
+      console.error('Error cargando ofertas de Zona Sport:', err);
+      if(!mostroCache){
+        mostrarEstado('error');
+        document.getElementById('contadorVivo').textContent = '';
+      }
     }
-    ultimoCrudo = crudo;
-  }catch(err){
-    console.error('Error cargando ofertas de Zona Sport:', err);
-    if(!mostroCache){
-      mostrarEstado('error');
-      document.getElementById('contadorVivo').textContent = '';
-    }
-  }
+  })().finally(()=>{ inicialPromise = null; });   // permite el "Reintentar" manual
+  return inicialPromise;
 }
 
 function mostrarEstado(tipo){
@@ -637,17 +825,20 @@ function llenarSelect(id, valores, etiquetaDefault){
 function poblarFiltros(productos){
   const marcas  = [...new Set(productos.map(p=>p.marca).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
   const lineas  = [...new Set(productos.map(p=>p.linea).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-  const tallas  = [...new Set(productos.map(p=>p.talla).filter(Boolean))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+  const tallas  = [...new Set(productos.flatMap(p=>p.tallas.map(t=>t.talla)).filter(Boolean))].sort(ordenTalla);
   llenarSelect('filtroMarca', marcas, 'Todas las marcas');
   llenarSelect('filtroLinea', lineas, 'Todas las líneas');
   llenarSelect('filtroTalla', tallas, 'Todas las tallas');
 }
 
-function waLink(p){
+function waLink(p, tallaElegida, cantidadElegida){
   const nombreCompleto = [p.marca, p.descripcion].filter(Boolean).join(' ');
   let msg = `Hola, me interesa el producto *${nombreCompleto}*`;
   if(p.modelo) msg += `, modelo ${p.modelo}`;
-  if(p.talla) msg += `, talla ${p.talla}`;
+  // Talla: la que eligió el cliente; si el producto solo tiene una, esa
+  const talla = tallaElegida || (p.tallas.length === 1 ? p.tallas[0].talla : '');
+  if(talla) msg += `, talla ${talla}`;
+  if(cantidadElegida > 1) msg += `, cantidad ${cantidadElegida}`;
   if(p.color) msg += `, color ${p.color}`;
   msg += p.precio>0 ? `, con precio de oferta de $${Math.round(p.precioOferta).toLocaleString('es-MX')} MXN.` : '.';
   msg += ' ¿Tienen disponibilidad?';
@@ -664,6 +855,14 @@ function precioHtml(p, grande){
   return antes + oferta + badge;
 }
 
+function tallasTag(p){
+  const nombres = p.tallas.map(t=>t.talla).filter(Boolean);
+  if(!nombres.length) return '';
+  if(nombres.length === 1) return `<span class="tag">Talla: ${escapeHtml(nombres[0])}</span>`;
+  const max = 5;
+  const lista = nombres.slice(0,max).map(escapeHtml).join(' · ') + (nombres.length>max ? ` +${nombres.length-max}` : '');
+  return `<span class="tag">Tallas: ${lista}</span>`;
+}
 function dispHtml(p){
   return p.cantidad === 1
     ? `<div class="disponibilidad low">¡Última pieza!</div>`
@@ -684,26 +883,28 @@ const cardObserver = IO_SUPPORTED ? new IntersectionObserver((entries)=>{
   });
 },{threshold:0.12, rootMargin:'0px 0px -30px 0px'}) : null;
 
-function render(lista){
+// lista: productos cargados. totalServidor/itemsPagina solo se usan sin filtros (carga por bloques).
+function render(lista, totalServidor, itemsPagina){
   listaActual = lista;
   const grid=document.getElementById("grid"), sr=document.getElementById("sinResultados"), pag=document.getElementById("paginacion");
   grid.innerHTML="";
   pag.innerHTML="";
-  if(!lista.length){sr.style.display="block";return;}
+  const totalItems = (totalServidor != null) ? totalServidor : lista.length;
+  if(!totalItems){sr.style.display="block";return;}
   sr.style.display="none";
 
-  const totalPaginas = Math.max(1, Math.ceil(lista.length / PAGE_SIZE));
+  const totalPaginas = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
   if(currentPage > totalPaginas) currentPage = totalPaginas;
   if(currentPage < 1) currentPage = 1;
   const inicio = (currentPage-1)*PAGE_SIZE;
-  const paginaItems = lista.slice(inicio, inicio+PAGE_SIZE);
+  const paginaItems = itemsPagina || lista.slice(inicio, inicio+PAGE_SIZE);
 
   paginaItems.forEach(p=>{
     const div=document.createElement("div");
     div.className="tarjeta";
     const imgHtml = p.img
-      ? `<div class="tarjeta-img"><img class="tarjeta-img-photo" loading="lazy" decoding="async" src="${p.img}" alt="${escapeHtml(p.descripcion)}"
-          onerror="this.parentElement.outerHTML='<div class=&quot;tarjeta-img placeholder-img&quot;><span class=&quot;ph-icon&quot;>🏷️</span></div>'"/></div>`
+      ? `<div class="tarjeta-img"><img class="tarjeta-img-photo" loading="lazy" decoding="async" src="${escapeHtml(p.img)}" alt="${escapeHtml(p.descripcion)}"
+          onerror="imgFallo(this)"/></div>`
       : `<div class="tarjeta-img placeholder-img"><span class="ph-icon">🏷️</span></div>`;
     const marcaBadge = p.marca ? `<span class="nivel-badge">${escapeHtml(p.marca)}</span>` : '';
     const ofertaTag = DESCUENTO ? `<span class="oferta-tag">-${DESCUENTO}%</span>` : '';
@@ -714,11 +915,11 @@ function render(lista){
         <div class="badges-row">${marcaBadge}${ofertaTag}</div>
         <h3>${escapeHtml(p.descripcion)}</h3>
         ${subInfo?`<p class="uso">${escapeHtml(subInfo)}</p>`:''}
-        ${p.talla?`<span class="tag">Talla: ${escapeHtml(p.talla)}</span>`:''}
+        ${tallasTag(p)}
         ${dispHtml(p)}
         ${precioHtml(p,false)}
         <div class="tarjeta-btns">
-          <button class="btn-detalles" onclick="abrirModal(${PRODUCTOS.indexOf(p)})">🔍 Ver detalles</button>
+          <button class="btn-detalles" onclick="abrirModal(${p.id})">🔍 Ver detalles</button>
           <a class="btn-wa-card" href="${waLink(p)}" target="_blank">${waSVG} Me interesa</a>
         </div>
       </div>`;
@@ -751,20 +952,109 @@ function getPageList(current, total){
 function renderPaginacion(totalPaginas){
   const pag=document.getElementById("paginacion");
   if(totalPaginas<=1){ pag.innerHTML=""; return; }
-  let html = `<button class="pag-btn" ${currentPage===1?'disabled':''} onclick="irPagina(${currentPage-1})" title="Anterior">‹</button>`;
+  let html = `<button class="pag-btn" ${currentPage===1?'disabled':''} data-p="${currentPage-1}" onclick="irPagina(${currentPage-1})" title="Anterior">‹</button>`;
   getPageList(currentPage, totalPaginas).forEach(p=>{
     html += (p==='...')
       ? `<span class="pag-dots">…</span>`
-      : `<button class="pag-num${p===currentPage?' active':''}" onclick="irPagina(${p})">${p}</button>`;
+      : `<button class="pag-num${p===currentPage?' active':''}" data-p="${p}" onclick="irPagina(${p})">${p}</button>`;
   });
-  html += `<button class="pag-btn" ${currentPage===totalPaginas?'disabled':''} onclick="irPagina(${currentPage+1})" title="Siguiente">›</button>`;
+  html += `<button class="pag-btn" ${currentPage===totalPaginas?'disabled':''} data-p="${currentPage+1}" onclick="irPagina(${currentPage+1})" title="Siguiente">›</button>`;
   pag.innerHTML = html;
 }
 
-function irPagina(n){
+// Si una foto no carga (las URLs de Google a veces fallan o caducan) se reintenta dos veces antes de mostrar el ícono
+function imgFallo(img){
+  const intento = Number(img.dataset.intento || 0);
+  if(intento >= 2){
+    const ph = document.createElement('div');
+    ph.className = 'tarjeta-img placeholder-img';
+    ph.innerHTML = '<span class="ph-icon">🏷️</span>';
+    if(img.parentElement) img.parentElement.replaceWith(ph);
+    return;
+  }
+  img.dataset.intento = intento + 1;
+  const src = img.getAttribute('src');
+  setTimeout(()=>{ img.removeAttribute('src'); img.src = src; }, intento === 0 ? 1200 : 3000);
+}
+
+function renderCatalogo(){
+  const total = Math.max(1, Math.ceil(TOTAL_PROD / PAGE_SIZE));
+  if(currentPage > total) currentPage = total;
+  render(PRODUCTOS, TOTAL_PROD, itemsDePagina(currentPage) || []);
+}
+
+// ---- Precarga "un bloque adelante" (sin ráfagas) ----
+// Nunca hay más de UNA solicitud de precarga a la vez, y solo se dispara por lo que hace el usuario:
+//  - al llegar a una página (desde la 2), se trae el bloque siguiente al que está viendo;
+//  - al dejar el cursor ~0.3 s sobre un botón de la paginación, se trae el bloque de esa página.
+// Si falla, se ignora en silencio: al hacer clic se pide normalmente y, si vuelve a fallar, sale el aviso con "Reintentar".
+let precargaEnCurso = false;
+function precargarBloque(n){
+  if(hayFiltros() || n < 1 || n > TOTAL_PAG || bloques[n] || pendientes[n] || precargaEnCurso) return;
+  precargaEnCurso = true;
+  pedirBloque(n).catch(()=>{}).finally(()=>{ precargaEnCurso = false; });
+}
+function precargarSiguienteDe(v){
+  const k = bloqueDeIndice((v-1)*PAGE_SIZE);
+  precargarBloque(k + 1);
+}
+let hoverTimer = null;
+document.getElementById('paginacion').addEventListener('pointerover', e=>{
+  const btn = e.target.closest('[data-p]');
+  clearTimeout(hoverTimer);
+  if(!btn || btn.disabled) return;
+  const v = Number(btn.dataset.p);
+  if(!(v >= 1) || v > Math.ceil(TOTAL_PROD / PAGE_SIZE)) return;
+  hoverTimer = setTimeout(()=>{
+    if(!btn.matches(':hover')) return;
+    bloquesDePagina(v).forEach(precargarBloque);
+  }, 300);
+});
+document.getElementById('paginacion').addEventListener('pointerout', ()=>clearTimeout(hoverTimer));
+
+function marcarNavegacion(on){
+  document.getElementById('grid').classList.toggle('cargando', on);
+  document.getElementById('paginacion').classList.toggle('cargando', on);
+}
+
+async function irPagina(n){
+  if(navegando) return;                       // ignora clics repetidos mientras carga
+  // La barra de filtros es "sticky": scrollIntoView sobre ella no mueve nada cuando ya está pegada arriba.
+  // Se sube al inicio de la lista de productos, justo debajo de esa barra.
+  const scroll = ()=>{
+    const barra = document.getElementById('filtrosBar');
+    const grid = document.getElementById('grid');
+    const top = grid.getBoundingClientRect().top + window.scrollY - barra.offsetHeight - 12;
+    window.scrollTo({top: Math.max(0, top), behavior:'smooth'});
+  };
+  // Con filtros activos ya se tiene todo el catálogo en memoria: solo se pagina
+  if(hayFiltros()){ currentPage = n; render(listaActual); scroll(); return; }
+  const totalPag = Math.max(1, Math.ceil(TOTAL_PROD / PAGE_SIZE));
+  n = Math.min(Math.max(1, n), totalPag);
+  // Solo se pide al servidor si la página cae en un bloque que aún no se ha descargado
+  const faltan = bloquesDePagina(n).filter(b => !bloques[b]);
+  if(faltan.length){
+    navegando = true;
+    scroll();                       // se sube de inmediato para que se vea el aviso de carga
+    marcarNavegacion(true);
+    mostrarCarga('Cargando más productos…');
+    try{
+      await Promise.all(faltan.map(pedirBloque));
+      mostrarCarga('');
+    }catch(err){
+      console.error('Error cargando bloque', err);
+      marcarNavegacion(false);
+      navegando = false;
+      mostrarCarga('No pudimos cargar esa página.', true, ()=>irPagina(n));   // reintento solo si el usuario lo pide
+      return;
+    }
+    marcarNavegacion(false);
+    navegando = false;
+  }
   currentPage = n;
-  render(listaActual);
-  document.getElementById('filtrosBar').scrollIntoView({behavior:'smooth', block:'start'});
+  renderCatalogo();
+  if(!faltan.length) scroll();
+  if(n >= 2) precargarSiguienteDe(n);   // deja listo el siguiente bloque mientras el cliente mira esta página
 }
 
 // Zoom de la imagen del modal siguiendo la posición del mouse
@@ -776,8 +1066,9 @@ document.querySelector(".modal-img-wrap").addEventListener("mousemove", function
   document.getElementById("m-img").style.transformOrigin = `${x}% ${y}%`;
 });
 
-function abrirModal(idx){
-  const p=PRODUCTOS[idx];
+function abrirModal(id){
+  const p=PRODUCTO_POR_ID[id];
+  if(!p) return;
   const imgEl=document.getElementById("m-img");
   const placeholder=document.getElementById("m-img-placeholder");
   const imgWrap=document.querySelector(".modal-img-wrap");
@@ -797,11 +1088,49 @@ function abrirModal(idx){
   document.getElementById("m-color").textContent=p.color||'—';
   document.getElementById("m-linea").textContent=p.linea||'—';
   document.getElementById("m-genero").textContent=p.genero||'—';
-  document.getElementById("m-talla").textContent=p.talla||'—';
-  document.getElementById("m-disp").textContent=p.cantidad===1?'¡Última pieza!':`${p.cantidad} disponibles`;
-  document.getElementById("m-wa").href=waLink(p);
+  document.getElementById("m-disp").textContent=p.cantidad===1?'¡Última pieza!':`${p.cantidad} piezas en total`;
+  iniciarSeleccion(p);
   document.getElementById("overlay").classList.add("active");
+  document.querySelector('#overlay .modal').scrollTop = 0;
   document.body.style.overflow="hidden";
+}
+
+// ---- Selección de talla y cantidad en el modal ----
+let selModal = null;   // { p, i (índice de talla), cant }
+const pz = n => n === 1 ? '1 pieza' : `${n} piezas`;
+
+function iniciarSeleccion(p){
+  selModal = { p, i: 0, cant: 1 };
+  const hayNombres = p.tallas.some(t=>t.talla);
+  const chips = document.getElementById('m-chips');
+  document.getElementById('m-tallas-label').style.display = hayNombres ? '' : 'none';
+  chips.style.display = hayNombres ? '' : 'none';
+  chips.innerHTML = hayNombres ? p.tallas.map((t,i)=>
+    `<button type="button" class="m-chip${i===0?' sel':''}" data-i="${i}" onclick="elegirTalla(${i})"><b>${escapeHtml(t.talla)}</b><small>${pz(t.cantidad)}</small></button>`
+  ).join('') : '';
+  actualizarSeleccion();
+}
+function elegirTalla(i){
+  if(!selModal) return;
+  selModal.i = i; selModal.cant = 1;
+  document.querySelectorAll('#m-chips .m-chip').forEach((el,k)=>el.classList.toggle('sel', k===i));
+  actualizarSeleccion();
+}
+function cambiarCantidad(d){
+  if(!selModal) return;
+  const max = selModal.p.tallas[selModal.i].cantidad;
+  selModal.cant = Math.min(max, Math.max(1, selModal.cant + d));
+  actualizarSeleccion();
+}
+function actualizarSeleccion(){
+  const { p, i, cant } = selModal;
+  const t = p.tallas[i];
+  document.getElementById('m-stock-note').textContent =
+    `Inventario disponible: ${t.cantidad} pieza(s)` + (t.talla ? ` en talla ${t.talla}` : '');
+  document.getElementById('m-cant').textContent = cant;
+  document.getElementById('m-menos').disabled = cant <= 1;
+  document.getElementById('m-mas').disabled = cant >= t.cantidad;
+  document.getElementById('m-wa').href = waLink(p, t.talla, cant);
 }
 
 function cerrarModal(e){
@@ -823,7 +1152,124 @@ function cerrarPoliticas(e){
   }
 }
 
-function filtrar(){
+function hayFiltros(){
+  return ['filtroPrecio','filtroMarca','filtroLinea','filtroTalla','buscador']
+    .some(id => (document.getElementById(id).value || '').trim() !== '');
+}
+
+function avisoParcial(on){
+  const el = document.getElementById('avisoParcial');
+  el.classList.toggle('on', !!on);
+  el.innerHTML = on
+    ? 'Mostrando coincidencias entre los productos ya cargados. <button type="button" onclick="filtrar(true)">Buscar en todo el catálogo</button>'
+    : '';
+}
+
+// buscarEnTodo = true -> el usuario confirmó la búsqueda (Enter, sugerencia o botón).
+// Escribir solo filtra lo ya cargado: NO se pide nada al servidor hasta que el usuario lo confirme.
+// Elegir un filtro (precio, marca, línea, talla) sí implica buscar en todo el catálogo.
+function filtrar(buscarEnTodo){
+  if(!hayFiltros()){
+    mostrarCarga('');
+    avisoParcial(false);
+    currentPage = 1;
+    renderCatalogo();
+    return;
+  }
+  const hayFiltroSelect = ['filtroPrecio','filtroMarca','filtroLinea','filtroTalla']
+    .some(id => document.getElementById(id).value !== '');
+  if(todoCargado){ avisoParcial(false); aplicarFiltros(); return; }
+  if(buscarEnTodo === true || hayFiltroSelect){
+    avisoParcial(false);
+    mostrarCarga('Buscando en todo el catálogo…');
+    document.getElementById('grid').classList.add('cargando');
+    cargarTodo().then(()=>{
+      mostrarCarga('');
+      document.getElementById('grid').classList.remove('cargando');
+      if(hayFiltros()) aplicarFiltros();
+    }).catch(err=>{
+      console.error('Error cargando el catálogo completo', err);
+      document.getElementById('grid').classList.remove('cargando');
+      mostrarCarga('No pudimos completar la búsqueda.', true, ()=>filtrar(true));   // reintento solo si el usuario lo pide
+    });
+    return;
+  }
+  mostrarCarga('');
+  aplicarFiltros();      // solo lo ya cargado
+  avisoParcial(true);
+}
+
+// ---- Autocompletar (usa solo lo ya cargado; no hace solicitudes) ----
+function norm(t){ return String(t==null?'':t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+let sugAct = -1, timerBusqueda = null;
+
+function alEscribir(){
+  clearTimeout(timerBusqueda);
+  timerBusqueda = setTimeout(()=>{ mostrarSugerencias(); filtrar(); }, 250);
+}
+function ocultarSugerencias(){
+  const ul = document.getElementById('sugerencias');
+  ul.classList.remove('on'); ul.innerHTML = ''; sugAct = -1;
+  document.getElementById('buscador').setAttribute('aria-expanded','false');
+}
+function mostrarSugerencias(){
+  const q = norm(document.getElementById('buscador').value.trim());
+  if(q.length < 2){ ocultarSugerencias(); return; }
+  const vistos = new Set(), cand = [];
+  const agregar = (texto, detalle)=>{
+    const t = String(texto||'').trim(); if(!t) return;
+    const nt = norm(t), k = nt.indexOf(q);
+    if(k === -1 || vistos.has(nt)) return;
+    vistos.add(nt);
+    const rango = k === 0 ? 0 : (nt[k-1] === ' ' ? 1 : 2);
+    cand.push({t, nt, k, rango, detalle});
+  };
+  PRODUCTOS.forEach(p=>{ agregar(p.descripcion, p.marca); agregar(p.modelo, p.descripcion); });
+  cand.sort((a,b)=>a.rango-b.rango || a.t.localeCompare(b.t, undefined, {numeric:true}));
+  const lista = cand.slice(0,6);
+  const ul = document.getElementById('sugerencias');
+  if(!lista.length){ ocultarSugerencias(); return; }
+  ul.innerHTML = lista.map(c=>{
+    const igual = c.nt.length === c.t.length;
+    const html = igual
+      ? escapeHtml(c.t.slice(0,c.k)) + '<mark>' + escapeHtml(c.t.slice(c.k, c.k+q.length)) + '</mark>' + escapeHtml(c.t.slice(c.k+q.length))
+      : escapeHtml(c.t);
+    return `<li role="option" data-v="${escapeHtml(c.t)}"><span>${html}</span>${c.detalle?`<small>${escapeHtml(c.detalle).slice(0,28)}</small>`:''}</li>`;
+  }).join('');
+  sugAct = -1;
+  ul.classList.add('on');
+  document.getElementById('buscador').setAttribute('aria-expanded','true');
+}
+function elegirSugerencia(valor){
+  clearTimeout(timerBusqueda);
+  document.getElementById('buscador').value = valor;
+  ocultarSugerencias();
+  filtrar(true);
+}
+function teclaBuscador(e){
+  const items = [...document.querySelectorAll('#sugerencias li')];
+  if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+    if(!items.length) return;
+    e.preventDefault();
+    sugAct = (sugAct + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+    items.forEach((li,i)=>li.classList.toggle('act', i === sugAct));
+  }else if(e.key === 'Enter'){
+    e.preventDefault();
+    clearTimeout(timerBusqueda);
+    if(sugAct >= 0 && items[sugAct]) elegirSugerencia(items[sugAct].dataset.v);
+    else{ ocultarSugerencias(); filtrar(true); }
+  }else if(e.key === 'Escape'){
+    ocultarSugerencias();
+  }
+}
+document.getElementById('sugerencias').addEventListener('mousedown', e=>{
+  const li = e.target.closest('li'); if(!li) return;
+  e.preventDefault();                 // evita que el campo pierda el foco antes del clic
+  elegirSugerencia(li.dataset.v);
+});
+document.addEventListener('click', e=>{ if(!e.target.closest('.buscador-wrap')) ocultarSugerencias(); });
+
+function aplicarFiltros(){
   const rango=document.getElementById("filtroPrecio").value;
   const marca=document.getElementById("filtroMarca").value;
   const linea=document.getElementById("filtroLinea").value;
@@ -836,7 +1282,7 @@ function filtrar(){
   }
   if(marca) res=res.filter(p=>p.marca===marca);
   if(linea) res=res.filter(p=>p.linea===linea);
-  if(talla) res=res.filter(p=>p.talla===talla);
+  if(talla) res=res.filter(p=>p.tallas.some(t=>t.talla===talla));
   if(q){
     res=res.filter(p=>
       p.modelo.toLowerCase().includes(q)||
@@ -856,8 +1302,9 @@ function resetFiltros(){
   document.getElementById("filtroLinea").value="";
   document.getElementById("filtroTalla").value="";
   document.getElementById("buscador").value="";
+  ocultarSugerencias();
   currentPage = 1;
-  render(PRODUCTOS);
+  filtrar();
 }
 
 function abrirZoom(){
