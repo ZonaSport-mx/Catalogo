@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://script.googleusercontent.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#12151A;--ink-soft:#1B1F26;
@@ -20,7 +20,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:#1A1D22;-webkit-font-smoothing:antialiased}
-.hero-face{font-family:'Bebas Neue',sans-serif;font-weight:400}
+.hero-face{font-family:'Barlow Condensed',sans-serif;font-weight:400}
 
 /* ---------- utilidades de scroll ---------- */
 .btn-top{position:fixed;bottom:24px;right:24px;width:46px;height:46px;border-radius:50%;background:var(--ink);color:#fff;border:none;font-size:1.05rem;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;z-index:60;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .25s,transform .25s,background .2s}
@@ -50,7 +50,7 @@ header::before{content:'';position:absolute;top:-30%;left:50%;transform:translat
 .logo-wrapper{display:flex;justify-content:center;margin-bottom:22px;animation:fadeUp .55s ease both}
 #logo-negocio{width:104px;height:104px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.18);background:#fff}
 .eyebrow{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);font-weight:700;margin-bottom:14px;animation:fadeUp .55s ease .08s both}
-header h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(3.2rem,11vw,5.2rem);letter-spacing:2px;line-height:.95;animation:fadeUp .55s ease .14s both}
+header h1{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:clamp(3.2rem,11vw,5.2rem);letter-spacing:2px;line-height:.95;animation:fadeUp .55s ease .14s both}
 .slogan{font-size:1.05rem;font-weight:300;letter-spacing:.3px;margin-top:16px;color:rgba(255,255,255,.92);animation:fadeUp .55s ease .2s both}
 .slogan-sub{font-size:.85rem;font-weight:400;margin-top:4px;color:rgba(255,255,255,.5);animation:fadeUp .55s ease .26s both}
 .cta-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:30px;flex-wrap:wrap;animation:fadeUp .55s ease .34s both}
@@ -71,6 +71,27 @@ header h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(3.
 .filtros select:focus,.filtros input:focus{border-color:var(--ink);outline:none}
 .btn-reset{padding:8px 16px;border-radius:20px;border:1.5px solid var(--linea);background:#fff;color:var(--gris);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s}
 .btn-reset:hover{border-color:var(--rojo);color:var(--rojo)}
+/* Escritorio: los filtros se ven igual que siempre (el contenedor no afecta el diseño) */
+.filtros-extra{display:contents}
+.btn-filtros{display:none}
+/* Celular: barra compacta (buscador + botón "Filtros"); las listas se abren solo al tocar el botón */
+@media (max-width:720px){
+  .filtros{padding:8px 12px;gap:8px;justify-content:stretch;align-items:center}
+  .filtros>label{display:none}
+  .buscador-wrap{flex:1;min-width:0;display:block}
+  .filtros input[type="text"]{width:100%;min-width:0;padding:9px 14px}
+  .btn-filtros{display:inline-flex;align-items:center;gap:6px;flex:none;padding:9px 13px;border-radius:20px;border:1.5px solid var(--linea);background:#fff;color:var(--ink);font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer}
+  .btn-filtros svg{transition:transform .2s}
+  .btn-filtros[aria-expanded="true"] svg{transform:rotate(180deg)}
+  .btn-filtros .punto{display:none;width:7px;height:7px;border-radius:50%;background:var(--rojo)}
+  .btn-filtros.activo{border-color:var(--rojo);color:var(--rojo)}
+  .btn-filtros.activo .punto{display:inline-block}
+  .filtros-extra{display:none;flex-basis:100%;width:100%;grid-template-columns:1fr 1fr;gap:8px}
+  .filtros-extra.open{display:grid}
+  .filtros-extra select{width:100%;min-width:0;padding:9px 12px}
+  .btn-reset{display:none;flex:none;padding:9px 12px}
+  .filtros.hay .btn-reset{display:inline-flex}
+}
 
 /* ---------- grid / tarjetas ---------- */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:20px 14px;max-width:1240px;margin:0 auto}
@@ -144,7 +165,7 @@ header h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(3.
 /* ---------- contacto ---------- */
 .contacto{position:relative;overflow:hidden;background:var(--ink);color:#fff;text-align:center;padding:60px 24px;margin-top:12px}
 .contacto-inner{position:relative;z-index:1}
-.contacto h2{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:2rem;letter-spacing:.5px;margin-bottom:10px}
+.contacto h2{font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:2rem;letter-spacing:.5px;margin-bottom:10px}
 .contacto p{opacity:.6;margin-bottom:26px;font-size:.9rem;line-height:1.6}
 .contacto a{display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;padding:14px 34px;border-radius:30px;font-weight:700;font-size:.92rem;text-decoration:none;transition:opacity .2s}
 .contacto a:hover{opacity:.88}
@@ -230,6 +251,230 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
 .sk-img,.sk-line{background:linear-gradient(90deg,#ececea 25%,#f6f6f4 50%,#ececea 75%);background-size:200% 100%;animation:skShimmer 1.3s linear infinite}
 @keyframes skShimmer{from{background-position:200% 0}to{background-position:-200% 0}}
 @media (prefers-reduced-motion:reduce){.sk-img,.sk-line{animation:none}}
+
+/* =====================================================================
+   DISEÑO PROFESIONAL (misma paleta Zona Sport)
+   ===================================================================== */
+:root{--r-sm:8px;--r-md:12px;--r-lg:18px;--disp:'Barlow Condensed','Arial Narrow',sans-serif}
+body{background:#fff;font-family:'Inter',-apple-system,sans-serif}
+
+/* Anuncios */
+.anuncio{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--rojo);color:#fff;min-height:36px;padding:4px 10px}
+.anuncio-msg{font-size:12px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;text-align:center;min-width:0}
+.anuncio-flecha{background:none;border:0;color:#fff;font-size:20px;line-height:1;padding:0 8px;cursor:pointer;opacity:.8}
+.anuncio-flecha:hover{opacity:1}
+
+/* Navegación */
+.nav{position:relative;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:24px;height:72px;padding:0 max(24px,calc((100% - 1240px)/2));background:var(--ink);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav-marca{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff}
+.nav-marca img{width:46px;height:46px;border-radius:50%;object-fit:cover;background:#fff;border:2px solid rgba(255,255,255,.9)}
+.nav-nombre{font-family:var(--disp);font-weight:800;font-size:30px;letter-spacing:1.5px;line-height:1;font-style:italic}
+.nav-nombre b{color:var(--rojo);font-weight:800}
+.nav-links{display:flex;gap:34px;margin-left:auto}
+.nav-links a{color:rgba(255,255,255,.78);text-decoration:none;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:6px 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.nav-links a:hover{color:#fff;border-color:var(--rojo)}
+.nav-wa{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 20px;border-radius:999px;background:#25D366;color:#fff;font-size:13px;font-weight:700;text-decoration:none;transition:filter .2s,transform .15s}
+.nav-wa:hover{filter:brightness(1.07);transform:translateY(-1px)}
+
+/* Hero */
+header.hero{position:relative;overflow:hidden;background:var(--ink);color:#fff;text-align:left;padding:0}
+header.hero::before{content:'';position:absolute;top:auto;left:auto;right:-8%;bottom:-30%;transform:none;width:780px;height:780px;background:radial-gradient(circle,rgba(228,87,46,.34) 0%,transparent 64%)}
+header.hero::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(115deg,transparent 0 38px,rgba(255,255,255,.025) 38px 40px);pointer-events:none}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.25fr .75fr;align-items:center;gap:40px;max-width:1240px;margin:0 auto;padding:84px 24px 92px}
+.hero .eyebrow{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:20px;animation:none}
+.hero .eyebrow i{display:block;width:34px;height:2px;background:var(--rojo)}
+.hero h1{font-family:var(--disp);font-weight:800;font-style:italic;text-transform:uppercase;font-size:clamp(4rem,10.5vw,8.6rem);line-height:.86;letter-spacing:-.5px;animation:none}
+.hero h1 em{font-style:italic;color:var(--rojo)}
+.hero .slogan{max-width:470px;font-size:17px;font-weight:400;line-height:1.55;color:rgba(255,255,255,.72);margin-top:26px;animation:none}
+.hero .cta-row{justify-content:flex-start;gap:12px;margin-top:34px;animation:none}
+.btn-explorar{display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 30px;border-radius:999px;background:var(--rojo);color:#fff;font-size:14px;font-weight:700;letter-spacing:.4px;text-decoration:none;transition:background .2s,transform .15s}
+.btn-explorar:hover{background:#fff;color:var(--ink);transform:translateY(-2px)}
+.btn-hero-wa{display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 26px;border-radius:999px;border:1.5px solid rgba(255,255,255,.35);color:#fff;font-size:14px;font-weight:600;text-decoration:none;transition:border-color .2s,background .2s}
+.btn-hero-wa svg{color:#25D366}
+.btn-hero-wa:hover{border-color:#fff;background:rgba(255,255,255,.06)}
+.hero-oferta{display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+.ho-num{font-family:var(--disp);font-weight:800;font-style:italic;font-size:clamp(4rem,9.5vw,9rem);line-height:.82;color:transparent;-webkit-text-stroke:2px #fff;letter-spacing:-1px;white-space:nowrap}
+.ho-txt{margin-top:18px;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo)}
+
+/* Franja de confianza */
+.confianza{list-style:none;display:flex;justify-content:center;gap:48px;flex-wrap:wrap;padding:20px 24px;background:#F4F3F0;border-bottom:1px solid var(--linea);margin:0}
+.confianza li{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--ink)}
+.confianza svg{color:var(--rojo);flex:none}
+
+/* Título de sección + contador */
+.contador-vivo{max-width:1240px;margin:0 auto;padding:56px 24px 22px;text-align:left;font-family:var(--disp);font-weight:700;font-size:clamp(1.7rem,3.4vw,2.4rem);text-transform:uppercase;letter-spacing:.5px;line-height:1;color:var(--ink)}
+.contador-vivo strong{color:var(--rojo);font-weight:800;font-size:1.25em;margin-right:6px}
+
+/* Filtros */
+.filtros{justify-content:flex-start;padding:12px max(24px,calc((100% - 1240px)/2));gap:10px;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--linea);border-bottom:1px solid var(--linea)}
+.filtros label{display:none}
+.filtros select,.filtros input[type="text"],.btn-reset,.btn-filtros{height:44px;border-radius:10px;border:1.5px solid var(--linea);padding:0 16px;font-size:14px;font-weight:500;background:#fff;color:var(--ink)}
+.filtros input[type="text"]{min-width:280px;padding-left:16px}
+.filtros select:hover,.filtros input:hover{border-color:#c9c6c1}
+.filtros select:focus,.filtros input:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(18,21,26,.08)}
+.btn-reset{font-weight:600;color:var(--gris)}
+.sugerencias{border-radius:12px;border:1px solid var(--linea);box-shadow:0 14px 34px rgba(18,21,26,.12)}
+.sugerencias li{border-radius:8px}
+
+/* Cuadrícula */
+.grid{grid-template-columns:repeat(2,1fr);gap:22px 12px;padding:28px 14px 20px;max-width:1240px}
+@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);gap:26px 18px;padding:32px 24px 24px}}
+@media(min-width:960px){.grid{grid-template-columns:repeat(4,1fr)}}
+
+
+/* Tarjetas */
+.tarjeta{border:1px solid var(--linea);border-radius:14px;background:#fff;transition:opacity .5s ease,transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.tarjeta:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(18,21,26,.11);border-color:#d7d4cf}
+.tarjeta::before{height:3px}
+.tarjeta-img{background:#F4F3F0;aspect-ratio:1/1}
+.tarjeta-body{padding:14px 14px 14px}
+.badges-row{margin:0 0 5px;display:block}
+.nivel-badge{background:none;padding:0;border-radius:0;font-size:11px;font-weight:700;letter-spacing:1.4px;color:var(--gris)}
+.oferta-tag{position:absolute;top:12px;left:12px;z-index:3;background:var(--rojo);color:#fff;font-family:var(--disp);font-size:18px;font-weight:800;font-style:italic;line-height:1;letter-spacing:.3px;padding:6px 11px 5px;border-radius:8px}
+.tarjeta-body h3{font-size:14px;font-weight:600;line-height:1.32;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.64em;color:var(--ink)}
+.tarjeta-body .uso{font-size:12px;margin-bottom:9px}
+.tag{border-radius:6px;font-size:11px;font-weight:500;padding:3px 9px;background:#F4F3F0;border-color:transparent;color:#4B515B}
+.disponibilidad{font-size:12px;font-weight:600;margin:2px 0 8px}
+.precio-antes{font-size:13px;color:var(--gris-claro)}
+.precio{font-family:var(--disp);font-size:2rem;font-weight:800;line-height:1;letter-spacing:.2px;margin-bottom:14px;color:var(--ink)}
+.tarjeta-btns{flex-direction:row;gap:8px;align-items:stretch}
+.btn-detalles{flex:1;height:44px;padding:0 10px;border-radius:10px;font-size:13px;font-weight:700;letter-spacing:.2px;background:var(--ink);transition:background .2s}
+.btn-detalles:hover{background:var(--rojo)}
+.btn-wa-card{flex:none;width:44px;height:44px;padding:0;border-radius:10px;border:1.5px solid #CDEFD9;background:#F2FBF5;transition:background .2s,border-color .2s}
+.btn-wa-card svg{width:20px;height:20px}
+.btn-wa-card:hover{background:#25D366;border-color:#25D366}
+.btn-wa-card:hover svg path{fill:#fff}
+
+/* Paginación */
+.paginacion{gap:8px;padding:16px 20px 72px}
+.pag-btn,.pag-num{height:44px;min-width:44px;border-radius:10px;border:1.5px solid var(--linea);font-family:inherit;font-weight:600;font-size:14px}
+.pag-num.active{background:var(--ink);border-color:var(--ink)}
+
+/* Skeleton */
+.skeleton-grid{max-width:1264px;gap:22px 12px;padding:28px 14px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:640px){.skeleton-grid{grid-template-columns:repeat(3,1fr);gap:26px 18px;padding:32px 24px}}
+@media(min-width:960px){.skeleton-grid{grid-template-columns:repeat(4,1fr)}}
+
+.sk-card{border-radius:14px;border:1px solid var(--linea);box-shadow:none;padding:0 0 14px;overflow:hidden}
+.sk-img{border-radius:0}
+.sk-line{margin:12px 14px 0}
+
+/* Modal */
+.modal{border-radius:20px}
+.modal h2{font-weight:700}
+.btn-top{background:var(--ink);box-shadow:0 8px 22px rgba(0,0,0,.22)}
+
+/* Contacto y pie */
+.contacto{margin-top:0;padding:88px 24px}
+.contacto h2{font-family:var(--disp);font-weight:800;font-style:italic;text-transform:uppercase;font-size:clamp(2.6rem,6vw,4.2rem);line-height:.95;letter-spacing:0}
+.contacto a{border-radius:999px}
+footer{background:#0C0E12;color:rgba(255,255,255,.5);padding:26px 20px;font-size:13px}
+footer .link-politicas{color:rgba(255,255,255,.85)}
+
+/* Tablet */
+@media (max-width:960px){
+  .nav-links{display:none}
+  .nav{margin-left:0}
+  .nav-wa{margin-left:auto}
+  .hero-grid{grid-template-columns:1fr;gap:28px;padding:56px 22px 60px}
+  .hero-oferta{align-items:flex-start;text-align:left;order:-1}
+  .ho-num{font-size:clamp(4.5rem,18vw,8rem)}
+}
+/* Celular */
+@media (max-width:720px){
+  .anuncio{min-height:40px;gap:2px}
+  .anuncio-msg{font-size:11px;letter-spacing:.9px;flex:1}
+  .nav{height:60px;padding:0 14px}
+  .nav-marca img{width:38px;height:38px}
+  .nav-nombre{font-size:25px}
+  .nav-wa{width:42px;padding:0;justify-content:center}
+  .nav-wa span{display:none}
+  .hero-grid{padding:40px 18px 46px}
+  .hero-oferta{display:none}
+  .hero h1{font-size:clamp(3.8rem,19vw,5.6rem)}
+  .hero .slogan{font-size:15px;margin-top:20px}
+  .hero .cta-row{flex-direction:column;align-items:stretch;gap:10px;margin-top:26px}
+  .btn-explorar,.btn-hero-wa{justify-content:center;height:52px}
+  .confianza{gap:10px 22px;justify-content:flex-start;padding:16px 18px}
+  .confianza li{font-size:12px}
+  .contador-vivo{padding:36px 16px 16px}
+  .filtros{padding:8px 12px}
+  .filtros select,.filtros input[type="text"],.btn-reset,.btn-filtros{height:42px;font-size:13px;padding:0 13px}
+  .filtros input[type="text"]{min-width:0}
+  .tarjeta-body{padding:11px 11px 12px}
+  .tarjeta-body h3{font-size:13px}
+  .precio{font-size:1.75rem;margin-bottom:12px}
+  .oferta-tag{top:8px;left:8px;font-size:16px;padding:5px 9px 4px}
+  .btn-detalles{height:42px;font-size:12.5px}
+  .btn-wa-card{width:42px;height:42px}
+  .contacto{padding:64px 20px}
+}
+
+/* ===== Ajustes: logo nuevo sobre placa blanca y resplandor detrás del 40% ===== */
+.nav-marca #logo-negocio{width:auto;height:52px;display:block;object-fit:contain;background:#fff;border:0;border-radius:14px;padding:6px 12px}
+header.hero::before{display:none}
+@media (min-width:961px){.hero-grid{grid-template-columns:1.1fr .9fr}}
+.hero-oferta{position:relative;justify-self:center;align-items:center;text-align:center}
+.hero-oferta::before{content:'';position:absolute;left:50%;top:50%;width:560px;height:560px;transform:translate(-50%,-52%);border-radius:50%;background:radial-gradient(circle,rgba(228,87,46,.62) 0%,rgba(228,87,46,.32) 38%,transparent 68%);z-index:0;pointer-events:none}
+.hero-oferta .ho-num,.hero-oferta .ho-txt{position:relative;z-index:1}
+.ho-eti{display:none}
+.ho-num{-webkit-text-stroke:2.5px #fff;color:transparent}
+.ho-txt{color:#fff;margin-top:16px}
+@media (max-width:960px){.hero-oferta{order:-1;justify-self:start;align-items:flex-start;text-align:left}.hero-oferta::before{left:30%;width:420px;height:420px}}
+@media (max-width:720px){
+  .nav-marca #logo-negocio{height:40px;padding:4px 9px;border-radius:10px}
+  .hero-oferta{display:flex}
+  .hero-oferta::before{width:320px;height:320px;left:35%}
+  .ho-num{font-size:clamp(3.4rem,17vw,4.6rem);-webkit-text-stroke:2px #fff}
+  .ho-txt{margin-top:8px;font-size:11px}
+}
+
+/* ===== Ajustes 3: logo con contorno, 40% centrado en celular, eslogan discreto ===== */
+.nav-marca #logo-negocio{background:none;padding:0;border-radius:0;height:50px;
+  filter:drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(1.5px 1.5px 0 #fff) drop-shadow(-1.5px -1.5px 0 #fff) drop-shadow(1.5px -1.5px 0 #fff) drop-shadow(-1.5px 1.5px 0 #fff)}
+.hero .slogan{font-size:15px;font-weight:400;color:rgba(255,255,255,.6);margin-top:20px;max-width:none}
+@media (max-width:960px){
+  .hero-oferta{justify-self:center;align-items:center;text-align:center}
+  .hero-oferta::before{left:50%}
+}
+@media (max-width:720px){
+  .nav-marca #logo-negocio{height:38px;padding:0;
+    filter:drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff) drop-shadow(0 1.5px 0 #fff) drop-shadow(0 -1.5px 0 #fff) drop-shadow(1px 1px 0 #fff) drop-shadow(-1px -1px 0 #fff) drop-shadow(1px -1px 0 #fff) drop-shadow(-1px 1px 0 #fff)}
+  .hero-grid{padding:30px 18px 44px;gap:18px}
+  .hero-oferta{width:100%}
+  .hero-oferta::before{width:380px;height:380px}
+  .ho-num{font-size:clamp(4rem,21vw,5.4rem)}
+  .ho-txt{font-size:12px;letter-spacing:3px}
+  .hero .eyebrow{font-size:11px;margin-bottom:14px}
+  .hero .slogan{font-size:14px;margin-top:16px}
+  .hero .cta-row{margin-top:24px}
+  .btn-hero-wa{height:48px;font-size:13.5px;border-color:rgba(255,255,255,.22)}
+}
+
+/* ===== Ajustes 4: logo sin fondo ni contorno (más grande) y celular centrado ===== */
+.nav-marca #logo-negocio{filter:none;background:none;padding:0;border-radius:0;height:64px}
+.nav{height:84px}
+@media (max-width:720px){
+  .nav{height:70px;display:grid;grid-template-columns:1fr auto 1fr;padding:0 14px}
+  .nav-marca{grid-column:2;justify-self:center}
+  .nav-marca #logo-negocio{filter:none;height:52px}
+  .nav-wa{grid-column:3;justify-self:end;margin-left:0}
+  .hero-grid{text-align:center}
+  .hero-txt{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .hero .eyebrow{justify-content:center}
+  .hero .eyebrow i{display:none}
+  .hero .slogan{text-align:center}
+  .hero .cta-row{align-self:stretch;align-items:stretch}
+}
+
+/* ===== Ajustes 5: botón Contacto (celular) lleva a la sección de abajo ===== */
+.nav-contacto{display:none}
+@media (max-width:720px){.nav{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}}
+@media (max-width:720px){
+  .nav-wa{display:none}
+  .nav-contacto{grid-column:3;justify-self:end;display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 15px;border-radius:999px;background:#25D366;color:#fff;font-size:13px;font-weight:700;text-decoration:none}
+  .nav-contacto svg{width:17px;height:17px}
+}
 </style>
 </head>
 <body>
@@ -237,29 +482,47 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
 
 <button class="btn-top" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Subir" aria-label="Subir">↑</button>
 
-<header>
+<div class="anuncio" role="region" aria-label="Anuncios">
+  <button type="button" class="anuncio-flecha" onclick="anuncioMover(-1)" aria-label="Anterior">‹</button>
+  <p class="anuncio-msg" id="anuncioMsg" aria-live="polite"></p>
+  <button type="button" class="anuncio-flecha" onclick="anuncioMover(1)" aria-label="Siguiente">›</button>
+</div>
+<nav class="nav" aria-label="Principal">
+  <a href="#" class="nav-marca" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" aria-label="Zona Sport, ir al inicio">
+    <img id="logo-negocio" src="data:image/png;base64,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" alt="Zona Sport" width="519" height="216"/>
+  </a>
+  <div class="nav-links">
+    <a href="#filtrosBar">Ofertas</a>
+    <a href="#contacto">Contacto</a>
+    <a href="#" onclick="abrirPoliticas();return false;">Políticas</a>
+  </div>
+  <a class="nav-wa" href="https://wa.me/524341697193?text=Hola,%20vi%20sus%20ofertas%20de%20Zona%20Sport%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>WhatsApp</span></a>
+  <a class="nav-contacto" href="#contacto" aria-label="Ir a contacto"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg><span>Contacto</span></a>
+</nav>
+<header class="hero">
   <canvas id="particlesCanvas" class="particles-canvas" aria-hidden="true"></canvas>
-  <div class="header-inner">
-    <div class="logo-wrapper">
-      <img id="logo-negocio"
-           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQitIYyvMsDjTll47U3bZ6cMQuZNoKqwkHp_w&s"
-           alt="Logo Zona Sport"
-           onerror="this.outerHTML='<div style=\'width:104px;height:104px;border-radius:50%;border:2px solid rgba(255,255,255,.18);background:#fff;display:flex;align-items:center;justify-content:center;font-size:40px;\'>⚽</div>'"/>
+  <div class="hero-grid">
+    <div class="hero-txt">
+      <p class="eyebrow"><i></i>Liquidación de mercancía</p>
+      <h1>Define<br>tu <em>estilo</em></h1>
+      <p class="slogan">Tecnología que entiende tu cuerpo.</p>
+      <div class="cta-row">
+        <a href="#filtrosBar" class="btn-explorar">Ver ofertas <span aria-hidden="true">→</span></a>
+        <a class="btn-hero-wa" href="https://wa.me/524341697193?text=Hola,%20vi%20sus%20ofertas%20de%20Zona%20Sport%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Pregunta por WhatsApp</a>
+      </div>
     </div>
-    <p class="eyebrow">Liquidación de mercancía</p>
-    <h1>ZONA SPORT</h1>
-    <p class="slogan">Define tu estilo</p>
-    <p class="slogan-sub">Tecnología que entiende tu cuerpo</p>
-    <div class="cta-row">
-      <span class="badge" id="badgeDescuento">40% OFF</span>
-      <a href="#filtrosBar" class="btn-explorar">Ver ofertas</a>
+    <div class="hero-oferta">
+      <span class="ho-eti">Descuento</span>
+      <span class="ho-num" id="badgeDescuento">40% OFF</span>
+      <span class="ho-txt">en toda la tienda</span>
     </div>
   </div>
 </header>
-
-<div class="topbar" aria-hidden="true">
-  <div class="topbar-track" id="marqueeTrack"></div>
-</div>
+<ul class="confianza">
+  <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="14" height="10" rx="1"/><path d="M15 9h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>Envíos a todo México</li>
+  <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 01-11.6 7.1L3 21l1.9-6.2A8 8 0 1121 12z"/></svg>Atención directa por WhatsApp</li>
+  <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Unidades limitadas</li>
+</ul>
 
 <p class="contador-vivo" id="contadorVivo"></p>
 
@@ -270,6 +533,8 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
            oninput="alEscribir()" onkeydown="teclaBuscador(event)" onfocus="mostrarSugerencias()"/>
     <ul class="sugerencias" id="sugerencias" role="listbox"></ul>
   </div>
+  <button type="button" class="btn-filtros" id="btnFiltros" onclick="toggleFiltros()" aria-expanded="false" aria-controls="filtrosExtra"><span id="btnFiltrosTxt">Filtros</span><span class="punto"></span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="filtros-extra" id="filtrosExtra">
   <select id="filtroPrecio" onchange="filtrar()">
     <option value="">Todos los precios</option>
     <option value="0-500">Menos de $500</option>
@@ -286,6 +551,7 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
   <select id="filtroTalla" onchange="filtrar()">
     <option value="">Todas las tallas</option>
   </select>
+  </div>
   <button class="btn-reset" onclick="resetFiltros()">✕ Limpiar</button>
 </div>
 
@@ -295,7 +561,6 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
   <button class="btn-reintentar" onclick="cargarOfertas()">Reintentar</button>
 </div>
 
-<div class="aviso-parcial" id="avisoParcial"></div>
 <div class="carga-bloque" id="cargaBloque" role="status" aria-live="polite"></div>
 <div class="grid" id="grid"></div>
 <div class="paginacion" id="paginacion"></div>
@@ -347,7 +612,7 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:var(--gris-claro);b
   </div>
 </div>
 
-<section class="contacto">
+<section class="contacto" id="contacto">
   <canvas id="particlesCanvasContacto" class="particles-canvas" aria-hidden="true"></canvas>
   <div class="contacto-inner">
     <h2>¿Te interesa alguna oferta?</h2>
@@ -424,10 +689,10 @@ const WA = "524341697193";
 
 // --- Barra de anuncios (estática) ---
 const MENSAJES_MARQUEE = ["40% de descuento en toda la tienda","Envíos a todo México","Unidades limitadas, hasta agotar existencias","Síguenos @zonasport_m"];
-(function initMarquee(){
-  const track = document.getElementById('marqueeTrack');
-  track.innerHTML = MENSAJES_MARQUEE.map(m=>`<span>${m}</span>`).join('');
-})();
+let anuncioIdx=0,anuncioTimer=null;
+function anuncioPintar(){ document.getElementById('anuncioMsg').textContent = MENSAJES_MARQUEE[anuncioIdx]; }
+function anuncioMover(d){ anuncioIdx=(anuncioIdx+d+MENSAJES_MARQUEE.length)%MENSAJES_MARQUEE.length; anuncioPintar(); clearInterval(anuncioTimer); anuncioTimer=setInterval(()=>anuncioMover(1),5000); }
+anuncioPintar(); anuncioTimer=setInterval(()=>anuncioMover(1),5000);
 
 // --- Botón subir ---
 window.addEventListener('scroll', ()=>{
@@ -725,6 +990,7 @@ function pedirBloque(n){
     if(totalAntes && totalAntes !== TOTAL_PROD) reiniciarBloques(0);   // el inventario cambió: los otros bloques ya no cuadran
     bloques[n] = mapearBloque(data);
     reconstruirProductos();
+    alLlegarBloque();
   })().finally(()=>{ delete pendientes[n]; });
   return pendientes[n];
 }
@@ -742,7 +1008,7 @@ function cargarTodo(){
         const n = faltan[idx++];
         await pedirBloque(n);
         hechos++;
-        if(hayFiltros()) mostrarCarga(`Buscando en todo el catálogo… ${Math.min(hechos,TOTAL_PAG)} de ${TOTAL_PAG}`);
+        if(hayFiltros()) mostrarCarga(`Estamos buscando en todo el catálogo para ti, un momento… ${Math.min(99, Math.round(hechos/Math.max(1,TOTAL_PAG)*100))}%`);
       }
     }
     await Promise.all(Array.from({length: Math.min(CONCURRENCIA_BUSQUEDA, faltan.length)}, worker));
@@ -805,12 +1071,16 @@ async function cargaSegundoPlano(){
     for(let n=2; n<=TOTAL_PAG; n++){
       if(bloques[n]) continue;
       await new Promise(r=>setTimeout(r, 400));
+      if(cargaTotalPromise) await cargaTotalPromise.catch(()=>{});   // si el usuario filtra por listas, esa carga ya trae los bloques
+      await esperarSalto();                                          // si se está saltando a un bloque por la búsqueda, no competir
       await pedirBloque(n);
-      poblarFiltros(PRODUCTOS);
-      if(hayFiltros()) filtrar();
     }
     todoCargado = Object.keys(bloques).length >= TOTAL_PAG;
-  }catch(e){ console.warn('Carga en segundo plano detenida:', e); }
+    if(todoCargado){ poblarFiltros(PRODUCTOS); if(hayFiltros()){ aplicarFiltros(true); } actualizarAvisoBusqueda(); }
+  }catch(e){
+    console.warn('Carga en segundo plano detenida:', e);
+    if(hayFiltros()) mostrarCarga('Uy, no pudimos terminar de buscar. Toca “Reintentar” para seguir.', true, ()=>filtrar());   // reintento solo si el usuario lo pide
+  }
   finally{ segundoPlanoActivo = false; }
 }
 
@@ -858,12 +1128,26 @@ function mostrarEstado(tipo){
   if(tipo!=='ok') document.getElementById('sinResultados').style.display='none';
 }
 
+// Agrega las opciones que faltan SIN reconstruir la lista (así no se cierra ni se pierde lo elegido)
 function llenarSelect(id, valores, etiquetaDefault){
   const sel = document.getElementById(id);
-  const actual = sel.value;
-  sel.innerHTML = `<option value="">${etiquetaDefault}</option>` +
-    valores.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');
-  if(valores.includes(actual)) sel.value = actual;
+  if(!sel.options.length) sel.add(new Option(etiquetaDefault, ''));
+  sel.options[0].textContent = etiquetaDefault;
+  const orden = new Map(valores.map((v,k)=>[v,k]));
+  const existentes = new Map();
+  for(let k=1; k<sel.options.length; k++) existentes.set(sel.options[k].value, sel.options[k]);
+  existentes.forEach((op,v)=>{ if(!orden.has(v) && sel.value !== v){ sel.removeChild(op); existentes.delete(v); } });
+  valores.forEach(v=>{
+    if(existentes.has(v)) return;
+    let ref = null;
+    for(let k=1; k<sel.options.length; k++){
+      const o2 = sel.options[k], pos = orden.get(o2.value);
+      if(pos !== undefined && pos > orden.get(v)){ ref = o2; break; }
+    }
+    const op = new Option(v, v);
+    sel.add(op, ref);
+    existentes.set(v, op);
+  });
 }
 
 function poblarFiltros(productos){
@@ -934,7 +1218,7 @@ function render(lista, totalServidor, itemsPagina){
   grid.innerHTML="";
   pag.innerHTML="";
   const totalItems = (totalServidor != null) ? totalServidor : lista.length;
-  if(!totalItems){sr.style.display="block";return;}
+  if(!totalItems){sr.style.display = buscandoMas ? "none" : "block"; return;}
   sr.style.display="none";
 
   const totalPaginas = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
@@ -963,8 +1247,8 @@ function render(lista, totalServidor, itemsPagina){
         ${dispHtml(p)}
         ${precioHtml(p,false)}
         <div class="tarjeta-btns">
-          <button class="btn-detalles" onclick="abrirModal(${p.id})">🔍 Ver detalles</button>
-          <a class="btn-wa-card" href="${waLink(p)}" target="_blank">${waSVG} Me interesa</a>
+          <button class="btn-detalles" onclick="abrirModal(${p.id})">Ver detalles</button>
+          <a class="btn-wa-card" href="${waLink(p)}" target="_blank" rel="noopener" aria-label="Me interesa, escribir por WhatsApp" title="Me interesa · WhatsApp">${waSVG}</a>
         </div>
       </div>`;
     grid.appendChild(div);
@@ -1081,7 +1365,7 @@ async function irPagina(n){
     navegando = true;
     scroll();                       // se sube de inmediato para que se vea el aviso de carga
     marcarNavegacion(true);
-    mostrarCarga('Cargando más productos…');
+    mostrarCarga('Estamos trayendo más productos para ti, un momento…');
     try{
       await Promise.all(faltan.map(pedirBloque));
       mostrarCarga('');
@@ -1089,7 +1373,7 @@ async function irPagina(n){
       console.error('Error cargando bloque', err);
       marcarNavegacion(false);
       navegando = false;
-      mostrarCarga('No pudimos cargar esa página.', true, ()=>irPagina(n));   // reintento solo si el usuario lo pide
+      mostrarCarga('Uy, no pudimos cargar esa página. Toca “Reintentar” para verla.', true, ()=>irPagina(n));   // reintento solo si el usuario lo pide
       return;
     }
     marcarNavegacion(false);
@@ -1196,60 +1480,160 @@ function cerrarPoliticas(e){
   }
 }
 
+// Al abrir una lista (marca, línea, talla...) con el catálogo incompleto, se trae el resto para que salgan TODAS las opciones
+['filtroPrecio','filtroMarca','filtroLinea','filtroTalla'].forEach(id=>{
+  const el = document.getElementById(id);
+  const pedir = ()=>{
+    if(todoCargado || bloquesCargados() >= TOTAL_PAG) return;
+    opcionesPendientes = true;
+    actualizarAvisoBusqueda();
+    cargarTodo().then(()=>{ poblarFiltros(PRODUCTOS); actualizarAvisoBusqueda(); }).catch(()=>{ opcionesPendientes = false; mostrarCarga(''); });
+  };
+  el.addEventListener('pointerdown', pedir);
+  el.addEventListener('focus', pedir);
+});
+
+// Celular: abrir/cerrar la lista de filtros y marcar cuando hay alguno activo
+function toggleFiltros(forzar){
+  const ex = document.getElementById('filtrosExtra'), btn = document.getElementById('btnFiltros');
+  const abrir = (typeof forzar === 'boolean') ? forzar : !ex.classList.contains('open');
+  ex.classList.toggle('open', abrir);
+  btn.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+  scrollAlAbrirFiltros = window.scrollY;
+}
+let scrollAlAbrirFiltros = 0;
+window.addEventListener('scroll', ()=>{
+  const ex = document.getElementById('filtrosExtra');
+  if(ex.classList.contains('open') && Math.abs(window.scrollY - scrollAlAbrirFiltros) > 80) toggleFiltros(false);   // al bajar, se pliegan solos
+}, {passive:true});
+document.getElementById('filtrosExtra').addEventListener('change', ()=>{ setTimeout(()=>toggleFiltros(false), 250); });
+function marcarEstadoFiltros(){
+  const n = ['filtroPrecio','filtroMarca','filtroLinea','filtroTalla'].filter(id => document.getElementById(id).value !== '').length;
+  document.getElementById('btnFiltros').classList.toggle('activo', n > 0);
+  document.getElementById('btnFiltrosTxt').textContent = n > 0 ? `Filtros (${n})` : 'Filtros';
+  document.getElementById('filtrosBar').classList.toggle('hay', hayFiltros());
+}
+
 function hayFiltros(){
   return ['filtroPrecio','filtroMarca','filtroLinea','filtroTalla','buscador']
     .some(id => (document.getElementById(id).value || '').trim() !== '');
 }
 
-function avisoParcial(on){
-  const el = document.getElementById('avisoParcial');
-  el.classList.toggle('on', !!on);
-  el.innerHTML = on
-    ? 'Mostrando coincidencias entre los productos ya cargados. <button type="button" onclick="filtrar(true)">Buscar en todo el catálogo</button>'
-    : '';
+// ================= Búsqueda progresiva =================
+// Al escribir se muestran de inmediato las coincidencias de los productos YA cargados y se van sumando
+// las de cada bloque (de 24 en 24) conforme llega. Si lo escrito parece un modelo (empieza con número),
+// se salta directo al bloque donde debería estar (el catálogo viene ordenado por modelo), sin bajar todo.
+let buscandoMas = false, refrescoPendiente = null, saltoSeq = 0, saltoEnCurso = false, timerBusqueda = null, sugAct = -1;
+
+function pctCarga(){ return Math.min(99, Math.round(bloquesCargados() / Math.max(1, TOTAL_PAG) * 100)); }
+function bloquesCargados(){ return Object.keys(bloques).length; }
+
+let opcionesPendientes = false;   // el usuario abrió una lista de filtros y aún faltan bloques por cargar
+function actualizarAvisoBusqueda(){
+  const completo = todoCargado || bloquesCargados() >= TOTAL_PAG;
+  if(completo) opcionesPendientes = false;
+  buscandoMas = hayFiltros() && !completo;
+  if(buscandoMas) mostrarCarga(`Estamos buscando en todo el catálogo para ti, un momento… ${pctCarga()}%`);
+  else if(opcionesPendientes) mostrarCarga(`Estamos preparando todas las opciones para ti, un momento… ${pctCarga()}%`);
+  else mostrarCarga('');
+  document.getElementById('grid').classList.remove('cargando');
 }
 
-// buscarEnTodo = true -> el usuario confirmó la búsqueda (Enter, sugerencia o botón).
-// Escribir solo filtra lo ya cargado: NO se pide nada al servidor hasta que el usuario lo confirme.
-// Elegir un filtro (precio, marca, línea, talla) sí implica buscar en todo el catálogo.
-function filtrar(buscarEnTodo){
+// Se llama cada vez que llega un bloque
+function alLlegarBloque(){
+  const ae = document.activeElement;
+  poblarFiltros(PRODUCTOS);
+  if(bloquesCargados() >= TOTAL_PAG) todoCargado = true;
+  clearTimeout(refrescoPendiente);
+  refrescoPendiente = setTimeout(()=>{
+    if(hayFiltros()) aplicarFiltros(true);
+    if(hayFiltros() || opcionesPendientes) actualizarAvisoBusqueda();
+    if(sugAct === -1 && ae && ae.id === 'buscador') mostrarSugerencias();
+  }, 120);
+}
+
+function esperarSalto(){
+  return new Promise(res=>{ const t = ()=> saltoEnCurso ? setTimeout(t,150) : res(); t(); });
+}
+function pareceModelo(q){ return q.length >= 2 && /^[0-9][0-9a-z-]*$/i.test(q); }
+function ultimoModelo(n){ const b = bloques[n]; return (b && b.length) ? String(b[b.length-1].modelo).toLowerCase() : null; }
+
+async function saltoInteligente(q){
+  const seq = saltoSeq, qq = q.toLowerCase();
+  if(!pareceModelo(qq) || TOTAL_PAG < 3) return;
+  saltoEnCurso = true;
+  try{
+    // 1) bloque donde debería empezar lo escrito (búsqueda binaria: ~5 solicitudes en vez de todas)
+    let lo = 1, hi = TOTAL_PAG;
+    while(lo < hi){
+      if(seq !== saltoSeq) return;
+      const mid = Math.floor((lo+hi)/2);
+      if(!bloques[mid]) await pedirBloque(mid);
+      if(seq !== saltoSeq) return;
+      const ult = ultimoModelo(mid);
+      if(ult === null) break;
+      if(ult < qq) lo = mid+1; else hi = mid;
+    }
+    // 2) ese bloque y los siguientes mientras sigan empezando con lo escrito
+    for(let n=lo; n<=TOTAL_PAG; n++){
+      if(seq !== saltoSeq) return;
+      if(!bloques[n]) await pedirBloque(n);
+      const ult = ultimoModelo(n);
+      if(ult === null || ult.slice(0, qq.length) > qq) break;
+    }
+  }catch(e){
+    console.warn('Salto de búsqueda interrumpido:', e);
+  }finally{
+    saltoEnCurso = false;
+  }
+}
+
+function filtrar(){
+  clearTimeout(timerBusqueda);
+  saltoSeq++;
+  marcarEstadoFiltros();
   if(!hayFiltros()){
+    buscandoMas = false;
     mostrarCarga('');
-    avisoParcial(false);
+    document.getElementById('grid').classList.remove('cargando');
     currentPage = 1;
     renderCatalogo();
     return;
   }
-  const hayFiltroSelect = ['filtroPrecio','filtroMarca','filtroLinea','filtroTalla']
-    .some(id => document.getElementById(id).value !== '');
-  if(todoCargado){ avisoParcial(false); aplicarFiltros(); return; }
-  if(buscarEnTodo === true || hayFiltroSelect){
-    avisoParcial(false);
-    mostrarCarga('Buscando en todo el catálogo…');
-    document.getElementById('grid').classList.add('cargando');
-    cargarTodo().then(()=>{
-      mostrarCarga('');
-      document.getElementById('grid').classList.remove('cargando');
-      if(hayFiltros()) aplicarFiltros();
-    }).catch(err=>{
-      console.error('Error cargando el catálogo completo', err);
-      document.getElementById('grid').classList.remove('cargando');
-      mostrarCarga('No pudimos completar la búsqueda.', true, ()=>filtrar(true));   // reintento solo si el usuario lo pide
-    });
+  if(todoCargado || bloquesCargados() >= TOTAL_PAG){
+    todoCargado = true;
+    buscandoMas = false;
+    mostrarCarga('');
+    aplicarFiltros();
     return;
   }
-  mostrarCarga('');
-  aplicarFiltros();      // solo lo ya cargado
-  avisoParcial(true);
+  // Faltan bloques: se muestra ya lo que coincide entre lo cargado y se siguen sumando resultados
+  const soloTexto = ['filtroPrecio','filtroMarca','filtroLinea','filtroTalla'].every(id => document.getElementById(id).value === '');
+  buscandoMas = true;
+  aplicarFiltros();
+  actualizarAvisoBusqueda();
+  if(soloTexto){
+    saltoInteligente(document.getElementById('buscador').value.trim());
+    cargaSegundoPlano();      // asegura que el resto se vaya trayendo, de uno en uno
+  }else{
+    cargarTodo().then(()=>{
+      actualizarAvisoBusqueda();
+      if(hayFiltros()) aplicarFiltros(true);
+    }).catch(err=>{
+      console.error('Error cargando el catálogo completo', err);
+      mostrarCarga('Uy, no pudimos terminar de buscar. Toca “Reintentar” para seguir.', true, ()=>filtrar());   // reintento solo si el usuario lo pide
+    });
+  }
 }
 
 // ---- Autocompletar (usa solo lo ya cargado; no hace solicitudes) ----
-function norm(t){ return String(t==null?'':t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
-let sugAct = -1, timerBusqueda = null;
+function norm(t){ return String(t==null?'':t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''); }
 
 function alEscribir(){
   clearTimeout(timerBusqueda);
-  timerBusqueda = setTimeout(()=>{ mostrarSugerencias(); filtrar(); }, 250);
+  mostrarSugerencias();
+  const vacio = document.getElementById('buscador').value.trim() === '';
+  timerBusqueda = setTimeout(filtrar, vacio ? 0 : 150);
 }
 function ocultarSugerencias(){
   const ul = document.getElementById('sugerencias');
@@ -1268,7 +1652,7 @@ function mostrarSugerencias(){
     const rango = k === 0 ? 0 : (nt[k-1] === ' ' ? 1 : 2);
     cand.push({t, nt, k, rango, detalle});
   };
-  PRODUCTOS.forEach(p=>{ agregar(p.descripcion, p.marca); agregar(p.modelo, p.descripcion); });
+  PRODUCTOS.forEach(p=>{ agregar(p.modelo, p.descripcion); agregar(p.descripcion, p.marca); });
   cand.sort((a,b)=>a.rango-b.rango || a.t.localeCompare(b.t, undefined, {numeric:true}));
   const lista = cand.slice(0,6);
   const ul = document.getElementById('sugerencias');
@@ -1288,7 +1672,7 @@ function elegirSugerencia(valor){
   clearTimeout(timerBusqueda);
   document.getElementById('buscador').value = valor;
   ocultarSugerencias();
-  filtrar(true);
+  filtrar();
 }
 function teclaBuscador(e){
   const items = [...document.querySelectorAll('#sugerencias li')];
@@ -1301,7 +1685,7 @@ function teclaBuscador(e){
     e.preventDefault();
     clearTimeout(timerBusqueda);
     if(sugAct >= 0 && items[sugAct]) elegirSugerencia(items[sugAct].dataset.v);
-    else{ ocultarSugerencias(); filtrar(true); }
+    else{ ocultarSugerencias(); filtrar(); }
   }else if(e.key === 'Escape'){
     ocultarSugerencias();
   }
@@ -1313,7 +1697,7 @@ document.getElementById('sugerencias').addEventListener('mousedown', e=>{
 });
 document.addEventListener('click', e=>{ if(!e.target.closest('.buscador-wrap')) ocultarSugerencias(); });
 
-function aplicarFiltros(){
+function aplicarFiltros(mantenerPagina){
   const rango=document.getElementById("filtroPrecio").value;
   const marca=document.getElementById("filtroMarca").value;
   const linea=document.getElementById("filtroLinea").value;
@@ -1335,8 +1719,13 @@ function aplicarFiltros(){
       p.color.toLowerCase().includes(q)||
       p.linea.toLowerCase().includes(q)
     );
+    // Primero los que EMPIEZAN con lo escrito (modelo o descripción), luego los que solo lo contienen
+    const rango = p => p.modelo.toLowerCase().startsWith(q) ? 0
+                     : p.descripcion.toLowerCase().startsWith(q) ? 1
+                     : p.modelo.toLowerCase().includes(q) ? 2 : 3;
+    res = res.map((p,i)=>({p,i,r:rango(p)})).sort((a,b)=>a.r-b.r || a.i-b.i).map(x=>x.p);
   }
-  currentPage = 1;
+  if(!mantenerPagina) currentPage = 1;
   render(res);
 }
 
